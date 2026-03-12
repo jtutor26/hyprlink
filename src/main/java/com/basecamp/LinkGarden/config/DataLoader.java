@@ -55,7 +55,7 @@ public class DataLoader {
                 user2.setPronouns("she/her");
                 user2.setBio("Welcome to my profile. I love designing generic templates and testing code!");
                 user2.setProfilePicture("https://api.dicebear.com/7.x/avataaars/svg?seed=Jane");
-                user2.setTheme("dark");
+                user2.setTheme("default");
 
                 SocialLink link3 = new SocialLink();
                 link3.setTitle("Social Media Profile");
