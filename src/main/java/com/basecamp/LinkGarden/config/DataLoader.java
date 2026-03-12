@@ -1,8 +1,8 @@
-package com.basecamp.springunitproject.config;
+package com.basecamp.LinkGarden.config;
 
-import com.basecamp.springunitproject.entity.SocialLink;
-import com.basecamp.springunitproject.entity.User;
-import com.basecamp.springunitproject.repository.UserRepository;
+import com.basecamp.LinkGarden.entity.SocialLink;
+import com.basecamp.LinkGarden.entity.User;
+import com.basecamp.LinkGarden.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

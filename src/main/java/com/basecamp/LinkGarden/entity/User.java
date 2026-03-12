@@ -1,4 +1,4 @@
-package com.basecamp.springunitproject.entity;
+package com.basecamp.LinkGarden.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

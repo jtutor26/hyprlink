@@ -1,6 +1,6 @@
-package com.basecamp.springunitproject.repository;
+package com.basecamp.LinkGarden.repository;
 
-import com.basecamp.springunitproject.entity.User;
+import com.basecamp.LinkGarden.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

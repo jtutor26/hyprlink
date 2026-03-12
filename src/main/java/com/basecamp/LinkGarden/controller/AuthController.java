@@ -1,8 +1,8 @@
-package com.basecamp.springunitproject.controller;
+package com.basecamp.LinkGarden.controller;
 
-import com.basecamp.springunitproject.entity.SocialLink;
-import com.basecamp.springunitproject.entity.User;
-import com.basecamp.springunitproject.repository.UserRepository;
+import com.basecamp.LinkGarden.entity.SocialLink;
+import com.basecamp.LinkGarden.entity.User;
+import com.basecamp.LinkGarden.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

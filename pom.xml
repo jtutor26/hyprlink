@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.basecamp</groupId>
-    <artifactId>spring-unit-project</artifactId>
+    <artifactId>LinkGarden</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-unit-project</name>
     <description>spring-unit-project</description>
