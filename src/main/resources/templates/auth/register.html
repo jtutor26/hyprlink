@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up | Link Garden</title>
+</head>
+<body>
+<h2>Create an Account</h2>
+<form th:action="@{/register}" th:object="${user}" method="post">
+
+    <label>Username:</label>
+    <input type="text" th:field="*{username}" required /><br/>
+
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" required /><br/>
+
+    <label>Display Name:</label>
+    <input type="text" th:field="*{name}" /><br/>
+
+    <label>Age:</label>
+    <input type="text" th:field="*{age}" /><br/>
+
+    <label>Pronouns:</label>
+    <input type="text" th:field="*{pronouns}" /><br/>
+
+    <label>Bio:</label>
+    <textarea th:field="*{bio}"></textarea><br/>
+
+    <label>Profile Picture URL:</label>
+    <input type="text" th:field="*{profilePicture}" /><br/>
+
+    <label>Theme:</label>
+    <select th:field="*{theme}">
+        <option th:each="themeOption : ${themes}"
+                th:value="${themeOption}"
+                th:text="${themeOption}"></option>
+    </select><br/>
+
+    <h3>Add Your Links</h3>
+    <p>Fill out the links you want to share.</p>
+
+    <div id="links-container">
+        <div th:each="link, stat : *{socialLinks}" class="link-entry" style="margin-bottom: 15px;">
+            <h4>Link <span class="link-number" th:text="${stat.count}">1</span></h4>
+
+            <label>Title:</label>
+            <input type="text" th:field="*{socialLinks[__${stat.index}__].title}" placeholder="e.g., My Portfolio" /><br/>
+
+            <label>URL:</label>
+            <input type="url" th:field="*{socialLinks[__${stat.index}__].url}" placeholder="https://..." /><br/>
+        </div>
+    </div>
+
+    <button type="button" id="add-link-btn">Add Another Link</button>
+    <hr>
+    <button type="submit">Sign Up</button>
+</form>
+<p>Already have an account? <a th:href="@{/login}">Log in here</a>.</p>
+
+<script>
+    document.getElementById('add-link-btn').addEventListener('click', function() {
+        // Find the container holding the links
+        const container = document.getElementById('links-container');
+
+        // Count how many links currently exist to determine the next index number
+        const linkEntries = container.getElementsByClassName('link-entry');
+        const nextIndex = linkEntries.length; // If there is 1 link, the next index is 1 (since it starts at 0)
+        const displayCount = nextIndex + 1;   // The number shown to the user (Link 2, Link 3, etc.)
+
+        // Create a new div element for the new link
+        const newLinkDiv = document.createElement('div');
+        newLinkDiv.className = 'link-entry';
+        newLinkDiv.style.marginBottom = '15px';
+
+        // Insert the HTML for the new inputs, carefully injecting the nextIndex into the 'name' attributes
+        newLinkDiv.innerHTML = `
+                <h4>Link <span class="link-number">${displayCount}</span></h4>
+
+                <label>Title:</label>
+                <input type="text" name="socialLinks[${nextIndex}].title" placeholder="e.g., Twitter" /><br/>
+
+                <label>URL:</label>
+                <input type="url" name="socialLinks[${nextIndex}].url" placeholder="https://..." /><br/>
+            `;
+
+        // Append the new link block to the bottom of the container
+        container.appendChild(newLinkDiv);
+    });
+</script>
+</body>
+</html>

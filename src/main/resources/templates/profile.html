@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="stylesheet" th:href="@{/css/{themeName}.css(themeName=${user.theme})}">
+    <title th:text="${user.name} + ' | Link Garden'">Link Garden Profile</title>
+</head>
+
+<body th:class="'theme-' + ${user.theme}">
+
+<div class="profile-container">
+    <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
+
+    <h1 class="name" th:text="${user.name}">Default Name</h1>
+
+    <p class="demographics">
+        <span th:text="${user.age}">Age</span> • <span th:text="${user.pronouns}">Pronouns</span>
+    </p>
+
+    <p class="bio" th:text="${user.bio}">Default bio text goes here.</p>
+
+    <ul class="link-list">
+        <li th:each="link : ${user.socialLinks}">
+            <a class="link-button" th:href="${link.url}" target="_blank" th:text="${link.title}">Link Title</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

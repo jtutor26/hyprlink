@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Link Garden</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        .edit-row { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ccc; }
+        .hidden-input { display: none; padding: 5px; width: 60%; }
+        .display-text { font-size: 1.1rem; margin-right: 15px; }
+        .action-btn { cursor: pointer; padding: 5px 10px; }
+    </style>
+</head>
+<body>
+<h2>Your Dashboard</h2>
+<div th:if="${param.success}" style="color: green; margin-bottom: 15px;">
+    Profile updated successfully!
+</div>
+
+<p>Click "Edit" next to any field to change it.</p>
+
+<form th:action="@{/dashboard/save}" th:object="${user}" method="post">
+
+    <div class="edit-row">
+        <strong>Display Name:</strong><br/>
+        <span id="name-display" class="display-text" th:text="*{name}">Name</span>
+        <input type="text" th:field="*{name}" id="name-input" class="hidden-input" />
+
+        <button type="button" id="name-edit-btn" class="action-btn" onclick="toggleEdit('name')">Edit</button>
+        <button type="submit" id="name-save-btn" class="action-btn hidden-input">Save</button>
+    </div>
+
+    <div class="edit-row">
+        <strong>Age:</strong><br/>
+        <span id="age-display" class="display-text" th:text="*{age}">Age</span>
+        <input type="text" th:field="*{age}" id="age-input" class="hidden-input" />
+
+        <button type="button" id="age-edit-btn" class="action-btn" onclick="toggleEdit('age')">Edit</button>
+        <button type="submit" id="age-save-btn" class="action-btn hidden-input">Save</button>
+    </div>
+
+    <div class="edit-row">
+        <strong>Pronouns:</strong><br/>
+        <span id="pronouns-display" class="display-text" th:text="*{pronouns}">Pronouns</span>
+        <input type="text" th:field="*{pronouns}" id="pronouns-input" class="hidden-input" />
+
+        <button type="button" id="pronouns-edit-btn" class="action-btn" onclick="toggleEdit('pronouns')">Edit</button>
+        <button type="submit" id="pronouns-save-btn" class="action-btn hidden-input">Save</button>
+    </div>
+
+    <div class="edit-row">
+        <strong>Bio:</strong><br/>
+        <span id="bio-display" class="display-text" th:text="*{bio}">Bio</span>
+        <textarea th:field="*{bio}" id="bio-input" class="hidden-input" rows="3" style="width: 80%;"></textarea>
+
+        <button type="button" id="bio-edit-btn" class="action-btn" onclick="toggleEdit('bio')">Edit</button>
+        <button type="submit" id="bio-save-btn" class="action-btn hidden-input">Save</button>
+    </div>
+
+    <div class="edit-row">
+        <strong>Theme:</strong><br/>
+        <span id="theme-display" class="display-text" th:text="*{theme}">Theme</span>
+
+        <select th:field="*{theme}" id="theme-input" class="hidden-input">
+            <option th:each="themeOption : ${themes}"
+                    th:value="${themeOption}"
+                    th:text="${themeOption}"></option>
+        </select>
+
+        <button type="button" id="theme-edit-btn" class="action-btn" onclick="toggleEdit('theme')">Edit</button>
+        <button type="submit" id="theme-save-btn" class="action-btn hidden-input">Save</button>
+    </div>
+
+    <h3>Your Links</h3>
+    <p>Edit existing links, or fill out the new one at the bottom to add more.</p>
+
+    <div th:each="link, stat : *{socialLinks}" class="edit-row">
+        <strong>Link <span th:text="${stat.count}"></span>:</strong><br/>
+
+        <input type="hidden" th:field="*{socialLinks[__${stat.index}__].id}" />
+
+        <span th:id="'link' + ${stat.index} + '-display'" class="display-text">
+                <span th:text="${link.title != null and !link.title.isEmpty()} ? ${link.title} : '(New Link)'">Title</span> -
+                <span th:text="${link.url != null and !link.url.isEmpty()} ? ${link.url} : '(Empty)'">URL</span>
+            </span>
+
+        <div th:id="'link' + ${stat.index} + '-input'" class="hidden-input">
+            <input type="text" th:field="*{socialLinks[__${stat.index}__].title}" placeholder="Title" />
+            <input type="url" th:field="*{socialLinks[__${stat.index}__].url}" placeholder="https://..." />
+        </div>
+
+        <button type="button" th:id="'link' + ${stat.index} + '-edit-btn'" class="action-btn" th:onclick="'toggleEdit(\'link' + ${stat.index} + '\')'">Edit</button>
+        <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn hidden-input">Save</button>
+    </div>
+</form>
+
+<script>
+    function toggleEdit(fieldId) {
+        // 1. Find all the elements for this specific field
+        const displaySpan = document.getElementById(fieldId + '-display');
+        const inputElement = document.getElementById(fieldId + '-input');
+        const editBtn = document.getElementById(fieldId + '-edit-btn');
+        const saveBtn = document.getElementById(fieldId + '-save-btn');
+
+        // 2. Hide the display text and show the input box
+        displaySpan.style.display = 'none';
+        inputElement.style.display = 'inline-block';
+
+        // 3. Hide the Edit button and show the Save button
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+
+        // 4. Automatically click into the text box for the user
+        inputElement.focus();
+    }
+</script>
+</body>
+</html>
