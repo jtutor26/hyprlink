@@ -1,7 +1,7 @@
-package com.basecamp.LinkGarden.controller;
+package com.basecamp.HyprLink.controller;
 
-import com.basecamp.LinkGarden.entity.User;
-import com.basecamp.LinkGarden.repository.UserRepository;
+import com.basecamp.HyprLink.entity.User;
+import com.basecamp.HyprLink.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

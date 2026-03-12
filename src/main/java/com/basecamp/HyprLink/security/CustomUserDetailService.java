@@ -1,7 +1,7 @@
-package com.basecamp.LinkGarden.security;
+package com.basecamp.HyprLink.security;
 
-import com.basecamp.LinkGarden.entity.User;
-import com.basecamp.LinkGarden.repository.UserRepository;
+import com.basecamp.HyprLink.entity.User;
+import com.basecamp.HyprLink.repository.UserRepository;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

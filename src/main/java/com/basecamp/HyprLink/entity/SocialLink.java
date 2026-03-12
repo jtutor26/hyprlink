@@ -1,4 +1,4 @@
-package com.basecamp.LinkGarden.entity;
+package com.basecamp.HyprLink.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

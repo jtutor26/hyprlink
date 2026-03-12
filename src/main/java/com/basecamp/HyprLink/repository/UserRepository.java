@@ -1,6 +1,6 @@
-package com.basecamp.LinkGarden.repository;
+package com.basecamp.HyprLink.repository;
 
-import com.basecamp.LinkGarden.entity.User;
+import com.basecamp.HyprLink.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
