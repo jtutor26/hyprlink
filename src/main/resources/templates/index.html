@@ -12,13 +12,15 @@
         <a th:href="@{/}" id="link-garden">HyperLink</a>
     </div>
 
+    <!-- Need a page just for viewing templates -->
+    <!-- Just gonna comment out the button for now -->
     <div class="nav-center">
-        <a th:href="@{/}">Templates</a>
+<!--        <a th:href="@{/}">Templates</a>-->
     </div>
 
     <div class="nav-right">
-        <a th:href="@{/}">Sign In</a>
-        <a th:href="@{/}" id="sign-up-btn">Sign Up</a>
+        <a th:href="@{/login}">Sign In</a>
+        <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
     </div>
 </nav>
 
@@ -47,8 +49,10 @@
         <h2>Hyperlink Page</h2>
         <p>Bring all your links, content, and profiles together into one simple page you can share anywhere.</p>
 
-        <button id="create-garden-btn"><a th:href="@{/}">Get Started</a></button>
-        <button id="browse-btn"><a th:href="@{/}">Browse templates</a></button>
+        <button id="create-garden-btn"><a th:href="@{/login}">Get Started</a></button>
+        <!-- Need a page just for viewing templates -->
+        <!-- Just gonna comment out the button for now -->
+<!--        <button id="browse-btn"><a th:href="@{/}">Browse templates</a></button>-->
 
         <div class="profile-card">
             <div class="profile-card-inner">
@@ -160,7 +164,7 @@
 </section>
 
 <footer>
-    <p>&copy; 2026 LinkGarden. All rights reserved.</p>
+    <p>&copy; 2026 Hyperlink. All rights reserved.</p>
 
 </footer>
 
