@@ -2,9 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing page</title>
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
 </head>
 <body>
+<nav class="nav">
+    <div class="nav-left">
+        <a th:href="@{/}" id="link-garden">HyperLink</a>
+    </div>
+
+    <div class="nav-center">
+        <a th:href="@{/}">Templates</a>
+    </div>
+
+    <div class="nav-right">
+        <a th:href="@{/}">Sign In</a>
+        <a th:href="@{/}" id="sign-up-btn">Sign Up</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="network-bg" aria-hidden="true">
+        <span class="net-node node-a"></span>
+        <span class="net-node node-b"></span>
+        <span class="net-node node-c"></span>
+        <span class="net-node node-d"></span>
+        <span class="net-node node-e"></span>
+        <span class="net-node node-f"></span>
+        <span class="net-node node-g"></span>
+        <span class="net-node node-h"></span>
+        <span class="net-node node-i"></span>
+        <span class="net-node node-j"></span>
+        <span class="net-node node-k"></span>
+        <span class="net-node node-l"></span>
+        <span class="net-node node-m"></span>
+        <span class="net-node node-n"></span>
+        <span class="net-node node-o"></span>
+        <span class="net-node node-p"></span>
+        <span class="net-node node-q"></span>
+    </div>
+    <div class="hero-content">
+        <h1>Your Personal</h1>
+        <h2>Hyperlink Page</h2>
+        <p>Bring all your links, content, and profiles together into one simple page you can share anywhere.</p>
+
+        <button id="create-garden-btn"><a th:href="@{/}">Get Started</a></button>
+        <button id="browse-btn"><a th:href="@{/}">Browse templates</a></button>
+
+        <div class="profile-card">
+            <div class="profile-card-inner">
+                <div class="profile-card-header"></div>
+                <div class="profile-card-content">
+                    <div class="profile-avatar">GT</div>
+                    <div class="profile-skeleton skeleton-title"></div>
+                    <div class="profile-skeleton skeleton-subtitle"></div>
+                    <div class="profile-links">
+                        <button class="profile-link primary-link">Portfolio</button>
+                        <button class="profile-link">YouTube</button>
+                        <button class="profile-link">Twitter</button>
+                        <button class="profile-link">Instagram</button>
+                        <button class="profile-link">Contact</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<section class="template-section">
+    <h1>Find your style</h1>
+    <h2>Choose from a variety of templates to match your style</h2>
+    <div class="template-options">
+        <div class="template-option template-option1">
+            <div class="card">
+                <div class="card-visual">
+                    <div class="card-visual-inner">
+                        <div class="avatar"></div>
+                        <div class="line short"></div>
+                        <div class="line long"></div>
+                        <div class="line long"></div>
+                        <div class="line long"></div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="tag"><span class="dot"></span><h3>Classic</h3></div>
+                    <p class="card-desc">Clean and simple design</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="template-option template-option2">
+            <div class="card variant-gradient">
+                <div class="card-visual visual-gradient">
+                    <div class="card-visual-inner">
+                        <div class="avatar gradient-avatar"></div>
+                        <div class="line short"></div>
+                        <div class="line long"></div>
+                        <div class="line long"></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tag"><span class="dot purple"></span><h3>Gradient</h3></div>
+                    <p class="card-desc">Eye-catching gradients</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="template-option template-option3">
+            <div class="card variant-minimal">
+                <div class="card-visual visual-minimal">
+                    <div class="card-visual-inner">
+                        <div class="avatar minimal-avatar"></div>
+                        <div class="line short"></div>
+                        <div class="line long"></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tag"><span class="dot muted"></span><h3>Minimalist</h3></div>
+                    <p class="card-desc">Less is more</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="feature-section">
+    <h1>Everything you need to grow</h1>
+
+    <div class="list-of-features">
+        <div class="feature1">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2 h-5 w-5 text-primary"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg></div>
+            <h2>Unlimited links</h2>
+            <p>Add as many links as you need — social profiles, projects, music, shops, and more.</p>
+        </div>
+
+        <div class="feature2">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette h-5 w-5 text-primary"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg></div>
+            <h2>Customizable themes</h2>
+            <p>Choose templates and personalize colors, fonts, and layouts to fit your brand.</p>
+        </div>
+
+        <div class="feature3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share2 h-5 w-5 text-primary"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg></div>
+            <h2>One link to share</h2>
+            <p>Share a single link in your bio and let visitors discover everything you do.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <p>&copy; 2026 LinkGarden. All rights reserved.</p>
+
+</footer>
+
 
 </body>
 </html>
