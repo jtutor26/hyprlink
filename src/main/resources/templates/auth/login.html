@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Login | Link Garden</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
 <body>
-<h2>Log In</h2>
+<main class="auth-page">
+    <section class="auth-card">
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Log in to manage your Link Garden profile.</p>
 
-<div th:if="${param.error}">
-    <p style="color: red;">Invalid username or password.</p>
-</div>
-<div th:if="${param.logout}">
-    <p style="color: green;">You have been logged out.</p>
-</div>
-<div th:if="${param.success}">
-    <p style="color: green;">Registration successful! Please log in.</p>
-</div>
+        <div th:if="${param.error}" class="auth-message auth-message-error">
+            Invalid username or password.
+        </div>
+        <div th:if="${param.logout}" class="auth-message auth-message-success">
+            You have been logged out.
+        </div>
+        <div th:if="${param.success}" class="auth-message auth-message-success">
+            Registration successful. Please log in.
+        </div>
 
-<form th:action="@{/login}" method="post">
-    <label>Username:</label>
-    <input type="text" name="username" required /><br/>
+        <form class="auth-form" th:action="@{/login}" method="post">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" required />
 
-    <label>Password:</label>
-    <input type="password" name="password" required /><br/>
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required />
 
-    <button type="submit">Log In</button>
-</form>
-<p>Don't have an account? <a th:href="@{/register}">Sign up here</a>.</p>
+            <button class="auth-btn auth-btn-primary" type="submit">Log In</button>
+        </form>
+
+        <p class="auth-helper">Don't have an account? <a th:href="@{/register}">Sign up here</a>.</p>
+    </section>
+</main>
 </body>
 </html>

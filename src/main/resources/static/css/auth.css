@@ -1,0 +1,223 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #1a1a2e;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-page::before,
+.auth-page::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-page::before {
+    width: 420px;
+    height: 420px;
+    top: -140px;
+    left: -140px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+}
+
+.auth-page::after {
+    width: 360px;
+    height: 360px;
+    bottom: -120px;
+    right: -120px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
+}
+
+.auth-card {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 520px);
+    border: 2px solid #dbeafe;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f8fbff 0%, #eef7ff 100%);
+    box-shadow: 0 16px 36px rgba(59, 130, 246, 0.12);
+}
+
+.auth-card h1,
+.auth-card h2,
+.auth-card h3,
+.auth-card h4,
+.auth-card p {
+    margin-top: 0;
+}
+
+.auth-title {
+    margin-bottom: 0.25rem;
+    font-size: 1.8rem;
+}
+
+.auth-subtitle {
+    margin-bottom: 1.5rem;
+    color: #475569;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.auth-form label {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.auth-form input,
+.auth-form textarea,
+.auth-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.72rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.55rem;
+    background: #ffffff;
+    font-size: 1rem;
+    color: #0f172a;
+}
+
+.auth-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.auth-form input:focus,
+.auth-form textarea:focus,
+.auth-form select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.auth-btn {
+    margin-top: 0.35rem;
+    border: none;
+    border-radius: 0.55rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-btn-primary {
+    color: #ffffff;
+    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.auth-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.34);
+}
+
+.auth-btn-secondary {
+    color: #0f4c81;
+    background: #eaf4ff;
+    border: 1px solid #bfdbfe;
+}
+
+.auth-btn-secondary:hover {
+    transform: translateY(-1px);
+    background: #dbeafe;
+}
+
+.auth-message {
+    border-radius: 0.6rem;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.94rem;
+    margin-bottom: 0.75rem;
+}
+
+.auth-message-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.auth-message-success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.auth-divider {
+    border: 0;
+    border-top: 1px solid #dbeafe;
+    margin: 0.5rem 0;
+}
+
+.auth-helper {
+    margin-top: 1rem;
+    color: #334155;
+    text-align: center;
+}
+
+.auth-helper a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.auth-helper a:hover {
+    color: #0ea5e9;
+    text-decoration: underline;
+}
+
+.links-heading {
+    margin-top: 1.2rem;
+    margin-bottom: 0.15rem;
+}
+
+.links-subheading {
+    margin-bottom: 0.65rem;
+    color: #475569;
+}
+
+#links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.link-entry {
+    padding: 0.9rem;
+    border: 1px solid #dbeafe;
+    border-radius: 0.65rem;
+    background: #ffffff;
+}
+
+.link-entry h4 {
+    margin-bottom: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .auth-card {
+        padding: 1.35rem;
+    }
+
+    .auth-title {
+        font-size: 1.5rem;
+    }
+}
+
