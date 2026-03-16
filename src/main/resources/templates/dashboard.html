@@ -28,6 +28,7 @@
 
         <button type="button" id="name-edit-btn" class="action-btn" onclick="toggleEdit('name')">Edit</button>
         <button type="submit" id="name-save-btn" class="action-btn hidden-input">Save</button>
+        <button type="button" id="name-cancel-btn" class="action-btn hidden-input" onclick="cancelEdit('name')">Cancel</button>
     </div>
 
     <div class="edit-row">
@@ -37,6 +38,7 @@
 
         <button type="button" id="age-edit-btn" class="action-btn" onclick="toggleEdit('age')">Edit</button>
         <button type="submit" id="age-save-btn" class="action-btn hidden-input">Save</button>
+        <button type="button" id="age-cancel-btn" class="action-btn hidden-input" onclick="cancelEdit('age')">Cancel</button>
     </div>
 
     <div class="edit-row">
@@ -46,6 +48,7 @@
 
         <button type="button" id="pronouns-edit-btn" class="action-btn" onclick="toggleEdit('pronouns')">Edit</button>
         <button type="submit" id="pronouns-save-btn" class="action-btn hidden-input">Save</button>
+        <button type="button" id="pronouns-cancel-btn" class="action-btn hidden-input" onclick="cancelEdit('pronouns')">Cancel</button>
     </div>
 
     <div class="edit-row">
@@ -55,6 +58,17 @@
 
         <button type="button" id="bio-edit-btn" class="action-btn" onclick="toggleEdit('bio')">Edit</button>
         <button type="submit" id="bio-save-btn" class="action-btn hidden-input">Save</button>
+        <button type="button" id="bio-cancel-btn" class="action-btn hidden-input" onclick="cancelEdit('bio')">Cancel</button>
+    </div>
+
+    <div class="edit-row">
+        <strong>Profile Picture URL:</strong><br/>
+        <span id="profilePicture-display" class="display-text" th:text="*{profilePicture}">Profile Picture URL</span>
+        <input type="text" th:field="*{profilePicture}" id="profilePicture-input" class="hidden-input" />
+
+        <button type="button" id="profilePicture-edit-btn" class="action-btn" onclick="toggleEdit('profilePicture')">Edit</button>
+        <button type="submit" id="profilePicture-save-btn" class="action-btn hidden-input">Save</button>
+        <button type="button" id="profilePicture-cancel-btn" class="action-btn hidden-input" onclick="cancelEdit('profilePicture')">Cancel</button>
     </div>
 
     <div class="edit-row">
@@ -69,6 +83,7 @@
 
         <button type="button" id="theme-edit-btn" class="action-btn" onclick="toggleEdit('theme')">Edit</button>
         <button type="submit" id="theme-save-btn" class="action-btn hidden-input">Save</button>
+        <button type="button" id="theme-cancel-btn" class="action-btn hidden-input" onclick="cancelEdit('theme')">Cancel</button>
     </div>
 
     <h3>Your Links</h3>
@@ -82,7 +97,7 @@
         <span th:id="'link' + ${stat.index} + '-display'" class="display-text">
                 <span th:text="${link.title != null and !link.title.isEmpty()} ? ${link.title} : '(New Link)'">Title</span> -
                 <span th:text="${link.url != null and !link.url.isEmpty()} ? ${link.url} : '(Empty)'">URL</span>
-            </span>
+        </span>
 
         <div th:id="'link' + ${stat.index} + '-input'" class="hidden-input">
             <input type="text" th:field="*{socialLinks[__${stat.index}__].title}" placeholder="Title" />
@@ -91,6 +106,7 @@
 
         <button type="button" th:id="'link' + ${stat.index} + '-edit-btn'" class="action-btn" th:onclick="'toggleEdit(\'link' + ${stat.index} + '\')'">Edit</button>
         <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn hidden-input">Save</button>
+        <button type="button" th:id="'link' + ${stat.index} + '-cancel-btn'" class="action-btn hidden-input" th:onclick="'cancelEdit(\'link' + ${stat.index} + '\')'">Cancel</button>
     </div>
 </form>
 
@@ -101,6 +117,7 @@
         const inputElement = document.getElementById(fieldId + '-input');
         const editBtn = document.getElementById(fieldId + '-edit-btn');
         const saveBtn = document.getElementById(fieldId + '-save-btn');
+        const cancelBtn = document.getElementById(fieldId + '-cancel-btn');
 
         // 2. Hide the display text and show the input box
         displaySpan.style.display = 'none';
@@ -109,9 +126,23 @@
         // 3. Hide the Edit button and show the Save button
         editBtn.style.display = 'none';
         saveBtn.style.display = 'inline-block';
+        cancelBtn.style.display = 'inline-block';
 
         // 4. Automatically click into the text box for the user
         inputElement.focus();
+    }
+    function cancelEdit(fieldId) {
+        const displaySpan = document.getElementById(fieldId + '-display');
+        const inputElement = document.getElementById(fieldId + '-input');
+        const editBtn = document.getElementById(fieldId + '-edit-btn');
+        const saveBtn = document.getElementById(fieldId + '-save-btn');
+        const cancelBtn = document.getElementById(fieldId + '-cancel-btn');
+        displaySpan.style.display = 'inline-block';
+        inputElement.style.display = 'none';
+
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
     }
 </script>
 </body>
