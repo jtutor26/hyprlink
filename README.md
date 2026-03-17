@@ -7,7 +7,7 @@ Users can register, sign in, edit their profile, and publish shareable social li
 
 - Web app: deployed on Render
 - Database: hosted on Neon (PostgreSQL)
-- URL: add your Render service URL here (for example, `hyperlink-tvdj.onrender.com/`)
+- URL: `hyperlink-tvdj.onrender.com/`
 
 ## What it does
 
