@@ -3,6 +3,12 @@
 HyperLink is a Spring Boot + Thymeleaf web app for creating a personal "link in bio" profile page.
 Users can register, sign in, edit their profile, and publish shareable social links.
 
+## Live deployment
+
+- Web app: deployed on Render
+- Database: hosted on Neon (PostgreSQL)
+- URL: add your Render service URL here (for example, `https://your-service-name.onrender.com`)
+
 ## What it does
 
 - User registration and login with Spring Security
@@ -23,7 +29,8 @@ Users can register, sign in, edit their profile, and publish shareable social li
 - Spring MVC + Thymeleaf
 - Spring Data JPA
 - Spring Security
-- PostgreSQL (runtime)
+- PostgreSQL (Neon in production)
+- Docker (for deployment image)
 - Maven Wrapper (`./mvnw`)
 
 ## Project structure
@@ -61,22 +68,30 @@ src/main/resources
 ## Prerequisites
 
 - JDK 25 installed
-- PostgreSQL running locally
-- A database named `quest-log`
-- (Optional) IntelliJ IDEA
+- Maven (or use the included Maven Wrapper)
+- A PostgreSQL database for local development (Neon or local Postgres)
+- (Optional) Docker
 
 ## Configuration
 
-Current DB settings are in `src/main/resources/application.properties`:
+Database config is environment-variable based in `src/main/resources/application.properties`:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/quest-log
-spring.datasource.username=postgres
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=create
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+spring.jpa.hibernate.ddl-auto=update
 ```
 
-Update `username`/`password` as needed for your local PostgreSQL setup.
+Set these variables before running the app locally:
+
+```bash
+export DB_URL="jdbc:postgresql://localhost:5432/quest-log"
+export DB_USERNAME="postgres"
+export DB_PASSWORD="your-password"
+```
+
+For Neon, use the connection values from your Neon project and set them in Render as service environment variables.
 
 ## Run locally
 
@@ -84,10 +99,31 @@ Update `username`/`password` as needed for your local PostgreSQL setup.
 ./mvnw spring-boot:run
 ```
 
-Then open your browser and start with:
+Then open:
 
 - `http://localhost:8080/login`
 - `http://localhost:8080/register`
+
+## Run with Docker
+
+```bash
+docker build -t hyperlink-app .
+docker run -p 8080:8080 \
+  -e DB_URL="jdbc:postgresql://<host>:5432/<db>" \
+  -e DB_USERNAME="<username>" \
+  -e DB_PASSWORD="<password>" \
+  hyperlink-app
+```
+
+## Deployment notes (Render + Neon)
+
+- Render runs the containerized Spring Boot app from `Dockerfile`.
+- Neon provides the managed PostgreSQL database.
+- Required env vars on Render:
+  - `DB_URL`
+  - `DB_USERNAME`
+  - `DB_PASSWORD`
+- App listens on container port `8080` (from `Dockerfile`).
 
 ## Test
 
@@ -113,6 +149,5 @@ Then open your browser and start with:
 
 ## Notes
 
-- `spring.jpa.hibernate.ddl-auto=create` recreates schema on startup; switch to a safer value for persistent data.
+- Current JPA mode is `update` (`spring.jpa.hibernate.ddl-auto=update`).
 - `profile.html` loads CSS by theme name (`/css/{theme}.css`). The repository currently includes `default.css`.
-
