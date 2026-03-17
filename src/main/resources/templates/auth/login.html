@@ -2,30 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login | Link Garden</title>
+    <title>Login | HyperLink</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
+
 <body>
-<h2>Log In</h2>
+<section class="login-section">
 
-<div th:if="${param.error}">
-    <p style="color: red;">Invalid username or password.</p>
-</div>
-<div th:if="${param.logout}">
-    <p style="color: green;">You have been logged out.</p>
-</div>
-<div th:if="${param.success}">
-    <p style="color: green;">Registration successful! Please log in.</p>
-</div>
 
-<form th:action="@{/login}" method="post">
-    <label>Username:</label>
-    <input type="text" name="username" required /><br/>
 
-    <label>Password:</label>
-    <input type="password" name="password" required /><br/>
+    <form th:action="@{/login}" method="post" class="login-form">
+        <h2><a th:href="@{/}">HyperLink</a></h2>
+        <h1>Welcome Back</h1>
 
-    <button type="submit">Log In</button>
-</form>
-<p>Don't have an account? <a th:href="@{/register}">Sign up here</a>.</p>
+        <p>Log in to your account</p>
+
+        <div th:if="${param.error}">
+            <p style="color: red;">Invalid username or password.</p>
+        </div>
+        <div th:if="${param.logout}">
+            <p style="color: green;">You have been logged out.</p>
+        </div>
+        <div th:if="${param.success}">
+            <p style="color: green;">Registration successful! Please log in.</p>
+        </div>
+
+        <input type="text" name="username" placeholder="Email" required /><br/>
+
+        <input type="password" name="password" placeholder="Password" required /><br/>
+
+        <button type="submit" id="login-btn">Log In</button>
+        <a th:href="@{/register}">Don't have an account? Sign up</a>
+
+    </form>
+
+</section>
+
+<footer>
+    <p>&copy; 2026 HyperLink. All rights reserved.</p>
+</footer>
+
+
 </body>
 </html>
