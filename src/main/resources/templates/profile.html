@@ -10,10 +10,13 @@
 <body th:class="'theme-' + ${user.theme}">
 
 <!-- Set background image if user has selected one -->
-<div class="profile-container"
+<div th:with="bgUrl=${user.backgroundImage != null and !user.backgroundImage.isEmpty() ?
+                    (#strings.startsWith(user.backgroundImage, '/images/') ?
+                     user.backgroundImage :
+                     '/images/background-templates/' + user.backgroundImage) : null}"
+     class="profile-container"
      th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}"
-     th:style="${user.backgroundImage != null and !user.backgroundImage.isEmpty()} ? ((#strings.startsWith(user.backgroundImage, '/images/')) ? 'background: url(' + user.backgroundImage + ') center/cover no-repeat fixed; min-height: 100vh;' : 'background: url(' + @{/images/background-templates/{bg}(bg=${user.backgroundImage})} + ') center/cover no-repeat fixed; min-height: 100vh;') : ''">
-    <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
+     th:style="${bgUrl != null} ? 'background: url(' + ${bgUrl} + ') center/cover no-repeat fixed; min-height: 100vh;' : ''">    <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
 
     <h1 class="name" th:text="${user.name}">Default Name</h1>
 
