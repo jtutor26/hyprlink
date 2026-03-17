@@ -24,6 +24,11 @@ public class User {
     private String bio;
     private String profilePicture;
     private String theme;
+    private String backgroundImage;
+    private String linkStyle;
+    private String textAlign;
+    private String buttonColor;
+    private String fontFamily;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

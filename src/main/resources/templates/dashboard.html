@@ -3,116 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard | Link Garden</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-        .edit-row { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ccc; }
-        .hidden-input { display: none; padding: 5px; width: 60%; }
-        .display-text { font-size: 1.1rem; margin-right: 15px; }
-        .action-btn { cursor: pointer; padding: 5px 10px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/dashboard.css}">
 </head>
 <body>
 <h2>Your Dashboard</h2>
-<div th:if="${param.success}" style="color: green; margin-bottom: 15px;">
+<div th:if="${param.success}" class="success-message">
     Profile updated successfully!
+</div>
+
+<div th:if="${param.uploadTooLarge}" class="field-error">
+    Upload is too large. Please choose a smaller image.
 </div>
 
 <p>Click "Edit" next to any field to change it.</p>
 
-<form th:action="@{/dashboard/save}" th:object="${user}" method="post">
+<form th:action="@{/dashboard/save}" th:object="${user}" method="post" enctype="multipart/x-www-form-urlencoded">
 
-    <div class="edit-row">
-        <strong>Display Name:</strong><br/>
-        <span id="name-display" class="display-text" th:text="*{name}">Name</span>
-        <input type="text" th:field="*{name}" id="name-input" class="hidden-input" />
-
-        <button type="button" id="name-edit-btn" class="action-btn" onclick="toggleEdit('name')">Edit</button>
-        <button type="submit" id="name-save-btn" class="action-btn hidden-input">Save</button>
+    <div class="tab-buttons">
+        <button type="button" id="general-tab-btn" class="tab-btn active" onclick="showTab('general')">General</button>
+        <button type="button" id="design-tab-btn" class="tab-btn" onclick="showTab('design')">Design</button>
     </div>
 
-    <div class="edit-row">
-        <strong>Age:</strong><br/>
-        <span id="age-display" class="display-text" th:text="*{age}">Age</span>
-        <input type="text" th:field="*{age}" id="age-input" class="hidden-input" />
-
-        <button type="button" id="age-edit-btn" class="action-btn" onclick="toggleEdit('age')">Edit</button>
-        <button type="submit" id="age-save-btn" class="action-btn hidden-input">Save</button>
-    </div>
-
-    <div class="edit-row">
-        <strong>Pronouns:</strong><br/>
-        <span id="pronouns-display" class="display-text" th:text="*{pronouns}">Pronouns</span>
-        <input type="text" th:field="*{pronouns}" id="pronouns-input" class="hidden-input" />
-
-        <button type="button" id="pronouns-edit-btn" class="action-btn" onclick="toggleEdit('pronouns')">Edit</button>
-        <button type="submit" id="pronouns-save-btn" class="action-btn hidden-input">Save</button>
-    </div>
-
-    <div class="edit-row">
-        <strong>Bio:</strong><br/>
-        <span id="bio-display" class="display-text" th:text="*{bio}">Bio</span>
-        <textarea th:field="*{bio}" id="bio-input" class="hidden-input" rows="3" style="width: 80%;"></textarea>
-
-        <button type="button" id="bio-edit-btn" class="action-btn" onclick="toggleEdit('bio')">Edit</button>
-        <button type="submit" id="bio-save-btn" class="action-btn hidden-input">Save</button>
-    </div>
-
-    <div class="edit-row">
-        <strong>Theme:</strong><br/>
-        <span id="theme-display" class="display-text" th:text="*{theme}">Theme</span>
-
-        <select th:field="*{theme}" id="theme-input" class="hidden-input">
-            <option th:each="themeOption : ${themes}"
-                    th:value="${themeOption}"
-                    th:text="${themeOption}"></option>
-        </select>
-
-        <button type="button" id="theme-edit-btn" class="action-btn" onclick="toggleEdit('theme')">Edit</button>
-        <button type="submit" id="theme-save-btn" class="action-btn hidden-input">Save</button>
-    </div>
-
-    <h3>Your Links</h3>
-    <p>Edit existing links, or fill out the new one at the bottom to add more.</p>
-
-    <div th:each="link, stat : *{socialLinks}" class="edit-row">
-        <strong>Link <span th:text="${stat.count}"></span>:</strong><br/>
-
-        <input type="hidden" th:field="*{socialLinks[__${stat.index}__].id}" />
-
-        <span th:id="'link' + ${stat.index} + '-display'" class="display-text">
-                <span th:text="${link.title != null and !link.title.isEmpty()} ? ${link.title} : '(New Link)'">Title</span> -
-                <span th:text="${link.url != null and !link.url.isEmpty()} ? ${link.url} : '(Empty)'">URL</span>
-            </span>
-
-        <div th:id="'link' + ${stat.index} + '-input'" class="hidden-input">
-            <input type="text" th:field="*{socialLinks[__${stat.index}__].title}" placeholder="Title" />
-            <input type="url" th:field="*{socialLinks[__${stat.index}__].url}" placeholder="https://..." />
+    <div id="general-tab" class="tab-content active">
+        <div class="edit-row">
+            <strong>Profile Picture:</strong><br/>
+            <img id="profile-pic-preview" th:src="${user.profilePicture}" alt="Profile Picture" class="small-preview-pic" />
+            <input type="file" id="profilePictureFile" name="profilePictureFile" accept="image/*" class="file-input" />
+            <p style="font-size: 0.85rem; color: #5f6d8c;">Or paste image URL:</p>
+            <input type="text" th:field="*{profilePicture}" id="profilePicture-input" class="hidden-input" placeholder="https://example.com/pic.jpg" />
+            <button type="button" id="profilePicture-edit-btn" class="action-btn" onclick="toggleEdit('profilePicture')">Edit URL</button>
+            <button type="submit" id="profilePicture-save-btn" class="action-btn save-btn">Save</button>
         </div>
 
-        <button type="button" th:id="'link' + ${stat.index} + '-edit-btn'" class="action-btn" th:onclick="'toggleEdit(\'link' + ${stat.index} + '\')'">Edit</button>
-        <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn hidden-input">Save</button>
+        <div class="edit-row">
+            <strong>Display Name:</strong><br/>
+            <span id="name-display" class="display-text" th:text="*{name}">Name</span>
+            <input type="text" th:field="*{name}" id="name-input" class="hidden-input" />
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></div>
+
+            <button type="button" id="name-edit-btn" class="action-btn" onclick="toggleEdit('name')">Edit</button>
+            <button type="submit" id="name-save-btn" class="action-btn save-btn">Save</button>
+        </div>
+
+        <div class="edit-row">
+            <strong>Age:</strong><br/>
+            <span id="age-display" class="display-text" th:text="*{age}">Age</span>
+            <input type="text" th:field="*{age}" id="age-input" class="hidden-input" />
+
+            <button type="button" id="age-edit-btn" class="action-btn" onclick="toggleEdit('age')">Edit</button>
+            <button type="submit" id="age-save-btn" class="action-btn save-btn">Save</button>
+        </div>
+
+        <div class="edit-row">
+            <strong>Pronouns:</strong><br/>
+            <span id="pronouns-display" class="display-text" th:text="*{pronouns}">Pronouns</span>
+            <input type="text" th:field="*{pronouns}" id="pronouns-input" class="hidden-input" />
+
+            <button type="button" id="pronouns-edit-btn" class="action-btn" onclick="toggleEdit('pronouns')">Edit</button>
+            <button type="submit" id="pronouns-save-btn" class="action-btn save-btn">Save</button>
+        </div>
+
+        <div class="edit-row">
+            <strong>Bio:</strong><br/>
+            <span id="bio-display" class="display-text" th:text="*{bio}">Bio</span>
+            <textarea th:field="*{bio}" id="bio-input" class="hidden-input bio-input" rows="3"></textarea>
+
+            <button type="button" id="bio-edit-btn" class="action-btn" onclick="toggleEdit('bio')">Edit</button>
+            <button type="submit" id="bio-save-btn" class="action-btn save-btn">Save</button>
+        </div>
+
+        <div class="edit-row">
+            <strong>Theme:</strong><br/>
+            <span id="theme-display" class="display-text" th:text="*{theme}">Theme</span>
+
+            <select th:field="*{theme}" id="theme-input" class="hidden-input">
+                <option th:each="themeOption : ${themes}"
+                        th:value="${themeOption}"
+                        th:text="${themeOption}"></option>
+            </select>
+
+            <button type="button" id="theme-edit-btn" class="action-btn" onclick="toggleEdit('theme')">Edit</button>
+            <button type="submit" id="theme-save-btn" class="action-btn save-btn">Save</button>
+        </div>
+
+        <h3>Your Links</h3>
+        <p>Edit existing links, or fill out the new one at the bottom to add more.</p>
+
+        <div th:each="link, stat : *{socialLinks}" class="edit-row">
+            <strong>Link <span th:text="${stat.count}"></span>:</strong><br/>
+
+            <input type="hidden" th:field="*{socialLinks[__${stat.index}__].id}" />
+
+            <span th:id="'link' + ${stat.index} + '-display'" class="display-text">
+                    <span th:text="${link.title != null and !link.title.isEmpty()} ? ${link.title} : '(New Link)'">Title</span> -
+                    <span th:text="${link.url != null and !link.url.isEmpty()} ? ${link.url} : '(Empty)'">URL</span>
+                </span>
+
+            <div th:id="'link' + ${stat.index} + '-input'" class="hidden-input">
+                <input type="text" th:field="*{socialLinks[__${stat.index}__].title}" placeholder="Title" />
+                <input type="url" th:field="*{socialLinks[__${stat.index}__].url}" placeholder="https://..." />
+            </div>
+
+            <button type="button" th:id="'link' + ${stat.index} + '-edit-btn'" class="action-btn" th:onclick="'toggleEdit(\'link' + ${stat.index} + '\')'">Edit</button>
+            <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn save-btn">Save</button>
+        </div>
+    </div>
+
+    <div id="design-tab" class="tab-content">
+        <div class="edit-row">
+            <strong>Profile Background:</strong><br/>
+            <input type="file" id="backgroundFile" name="backgroundFile" accept="image/*" class="file-input" />
+            <p style="font-size: 0.85rem; color: #5f6d8c;">Or choose from templates:</p>
+            <div class="background-grid">
+                <div th:each="bg : ${backgrounds}" class="background-item">
+                    <label>
+                        <input type="radio" th:field="*{backgroundImage}" th:value="${bg}" />
+                        <img th:src="@{/images/background-templates/{bg}(bg=${bg})}" alt="Background" class="background-thumb" />
+                        <div th:text="${bg}" class="background-name">template</div>
+                    </label>
+                </div>
+            </div>
+            <div th:if="${#fields.hasErrors('backgroundImage')}" th:errors="*{backgroundImage}" class="field-error"></div>
+        </div>
+
+        <div class="edit-row">
+            <strong>Link Style:</strong><br/>
+            <select th:field="*{linkStyle}" id="linkStyle" class="design-input">
+                <option value="">Choose one</option>
+                <option th:each="linkStyleOption : ${linkStyles}"
+                        th:value="${linkStyleOption}"
+                        th:text="${linkStyleOption}"></option>
+            </select>
+
+            <strong>Text Alignment:</strong><br/>
+            <select th:field="*{textAlign}" id="textAlign" class="design-input">
+                <option value="">Choose one</option>
+                <option th:each="textAlignOption : ${textAlignments}"
+                        th:value="${textAlignOption}"
+                        th:text="${textAlignOption}"></option>
+            </select>
+
+            <strong>Button Color:</strong><br/>
+            <select th:field="*{buttonColor}" id="buttonColor" class="design-input">
+                <option value="">Choose one</option>
+                <option th:each="buttonColorOption : ${buttonColors}"
+                        th:value="${buttonColorOption}"
+                        th:text="${buttonColorOption}"></option>
+            </select>
+
+            <strong>Font:</strong><br/>
+            <select th:field="*{fontFamily}" id="fontFamily" class="design-input">
+                <option value="">Choose one</option>
+                <option th:each="fontOption : ${fontFamilies}"
+                        th:value="${fontOption}"
+                        th:text="${fontOption}"></option>
+            </select>
+
+            <button type="submit" class="action-btn">Save Design</button>
+        </div>
     </div>
 </form>
 
+<div class="live-preview">
+    <div class="live-preview-header">Preview</div>
+    <div id="preview-card" class="preview-card text-align-center link-style-pill button-color-blue font-family-system">
+        <img id="preview-profile-pic" class="preview-profile-pic" th:src="${user.profilePicture}" alt="Preview Profile Picture">
+        <h4 id="preview-name" th:text="${user.name}">Your Name</h4>
+        <p id="preview-pronouns" th:text="${user.pronouns}">Pronouns</p>
+        <p id="preview-bio" th:text="${user.bio}">Your bio goes here.</p>
+
+        <ul id="preview-links" class="preview-links"></ul>
+    </div>
+</div>
+
 <script>
+    function showTab(tabName) {
+        const generalTab = document.getElementById('general-tab');
+        const designTab = document.getElementById('design-tab');
+        const generalBtn = document.getElementById('general-tab-btn');
+        const designBtn = document.getElementById('design-tab-btn');
+
+        if (tabName === 'design') {
+            generalTab.classList.remove('active');
+            designTab.classList.add('active');
+            generalBtn.classList.remove('active');
+            designBtn.classList.add('active');
+        } else {
+            designTab.classList.remove('active');
+            generalTab.classList.add('active');
+            designBtn.classList.remove('active');
+            generalBtn.classList.add('active');
+        }
+    }
+
     function toggleEdit(fieldId) {
-        // 1. Find all the elements for this specific field
         const displaySpan = document.getElementById(fieldId + '-display');
         const inputElement = document.getElementById(fieldId + '-input');
         const editBtn = document.getElementById(fieldId + '-edit-btn');
         const saveBtn = document.getElementById(fieldId + '-save-btn');
 
-        // 2. Hide the display text and show the input box
-        displaySpan.style.display = 'none';
-        inputElement.style.display = 'inline-block';
+        if (displaySpan) {
+            displaySpan.style.display = 'none';
+        }
 
-        // 3. Hide the Edit button and show the Save button
-        editBtn.style.display = 'none';
-        saveBtn.style.display = 'inline-block';
+        if (inputElement) {
+            inputElement.style.display = 'inline-block';
+            inputElement.focus();
+        }
 
-        // 4. Automatically click into the text box for the user
-        inputElement.focus();
+        if (editBtn) {
+            editBtn.style.display = 'none';
+        }
+
+        if (saveBtn) {
+            saveBtn.style.display = 'inline-block';
+        }
     }
+
+    function getFieldValue(inputId, displayId, fallbackText) {
+        const input = document.getElementById(inputId);
+        if (input && input.value && input.value.trim() !== '') {
+            return input.value.trim();
+        }
+
+        const display = document.getElementById(displayId);
+        if (display && display.textContent && display.textContent.trim() !== '') {
+            return display.textContent.trim();
+        }
+
+        return fallbackText;
+    }
+
+    function updatePreviewText() {
+        document.getElementById('preview-name').textContent = getFieldValue('name-input', 'name-display', 'Your Name');
+        document.getElementById('preview-pronouns').textContent = getFieldValue('pronouns-input', 'pronouns-display', 'Pronouns');
+        document.getElementById('preview-bio').textContent = getFieldValue('bio-input', 'bio-display', 'Your bio goes here.');
+
+        const profilePictureInput = document.getElementById('profilePicture-input');
+        if (profilePictureInput && profilePictureInput.value && profilePictureInput.value.trim() !== '') {
+            document.getElementById('preview-profile-pic').src = profilePictureInput.value.trim();
+            document.getElementById('profile-pic-preview').src = profilePictureInput.value.trim();
+        }
+
+        const profilePictureFileInput = document.getElementById('profilePictureFile');
+        if (profilePictureFileInput && profilePictureFileInput.files && profilePictureFileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview-profile-pic').src = e.target.result;
+                document.getElementById('profile-pic-preview').src = e.target.result;
+            };
+            reader.readAsDataURL(profilePictureFileInput.files[0]);
+        }
+    }
+
+    function updatePreviewLinks() {
+        const previewLinks = document.getElementById('preview-links');
+        previewLinks.innerHTML = '';
+
+        const titleInputs = document.querySelectorAll('input[name*=".title"]');
+
+        titleInputs.forEach(function(titleInput) {
+            const title = titleInput.value ? titleInput.value.trim() : '';
+            const urlFieldName = titleInput.name.replace('.title', '.url');
+            const urlInput = document.querySelector('input[name="' + urlFieldName + '"]');
+            const url = urlInput && urlInput.value ? urlInput.value.trim() : '';
+
+            if (title !== '' && url !== '') {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.textContent = title;
+                listItem.appendChild(link);
+                previewLinks.appendChild(listItem);
+            }
+        });
+
+        if (previewLinks.children.length === 0) {
+            const emptyItem = document.createElement('li');
+            emptyItem.textContent = 'Add links to preview them here';
+            previewLinks.appendChild(emptyItem);
+        }
+    }
+
+    function updatePreviewBackground() {
+        const previewCard = document.getElementById('preview-card');
+        const selectedBackground = document.querySelector('input[name="backgroundImage"]:checked');
+
+        if (selectedBackground && selectedBackground.value.trim() !== '') {
+            previewCard.style.backgroundImage = "url('/images/background-templates/" + selectedBackground.value + "')";
+            previewCard.style.backgroundSize = 'cover';
+            previewCard.style.backgroundPosition = 'center';
+            previewCard.style.backgroundRepeat = 'no-repeat';
+        } else {
+            previewCard.style.backgroundImage = '';
+        }
+    }
+
+    function updatePreviewDesignStyles() {
+        const previewCard = document.getElementById('preview-card');
+        const linkStyleSelect = document.getElementById('linkStyle');
+        const textAlignSelect = document.getElementById('textAlign');
+        const buttonColorSelect = document.getElementById('buttonColor');
+        const fontFamilySelect = document.getElementById('fontFamily');
+
+        previewCard.classList.remove('link-style-pill', 'link-style-box', 'link-style-underline');
+        previewCard.classList.remove('text-align-center', 'text-align-left');
+        previewCard.classList.remove('button-color-blue', 'button-color-green', 'button-color-red', 'button-color-purple', 'button-color-orange');
+        previewCard.classList.remove('font-family-system', 'font-family-georgia', 'font-family-courier', 'font-family-arial');
+
+        const selectedLinkStyle = linkStyleSelect && linkStyleSelect.value ? linkStyleSelect.value : 'pill';
+        const selectedTextAlign = textAlignSelect && textAlignSelect.value ? textAlignSelect.value : 'center';
+        const selectedButtonColor = buttonColorSelect && buttonColorSelect.value ? buttonColorSelect.value : 'blue';
+        const selectedFontFamily = fontFamilySelect && fontFamilySelect.value ? fontFamilySelect.value : 'System';
+
+        previewCard.classList.add('link-style-' + selectedLinkStyle);
+        previewCard.classList.add('text-align-' + selectedTextAlign);
+        previewCard.classList.add('button-color-' + selectedButtonColor);
+        previewCard.classList.add('font-family-' + selectedFontFamily.toLowerCase());
+    }
+
+    function bindPreviewEvents() {
+        const allInputs = document.querySelectorAll('input, textarea, select');
+        allInputs.forEach(function(element) {
+            element.addEventListener('input', function() {
+                updatePreviewText();
+                updatePreviewLinks();
+                updatePreviewBackground();
+                updatePreviewDesignStyles();
+            });
+
+            element.addEventListener('change', function() {
+                updatePreviewText();
+                updatePreviewLinks();
+                updatePreviewBackground();
+                updatePreviewDesignStyles();
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        bindPreviewEvents();
+        updatePreviewText();
+        updatePreviewLinks();
+        updatePreviewBackground();
+        updatePreviewDesignStyles();
+    });
 </script>
 </body>
 </html>
