@@ -1,27 +1,20 @@
 package com.basecamp.HyprLink.controller;
 
-import com.basecamp.HyprLink.entity.SocialLink;
 import com.basecamp.HyprLink.entity.User;
-import com.basecamp.HyprLink.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.basecamp.HyprLink.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/login")
@@ -31,19 +24,14 @@ public class AuthController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        User user = new User();
-        List<SocialLink> initialLinks = new ArrayList<>();
-        initialLinks.add(new SocialLink());
-        user.setSocialLinks(initialLinks);
-        model.addAttribute("user", new User());
-        model.addAttribute("themes", List.of("default", "dark"));
+        model.addAttribute("user", authService.prepareRegistrationFormData());
+        model.addAttribute("themes", authService.getAvailableThemes());
         return "auth/register";
     }
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "redirect:/login?success"; // Redirect to login page after signing up
+        authService.registerUser(user);
+        return "redirect:/login?success";
     }
 }
