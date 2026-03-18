@@ -15,6 +15,35 @@ body {
     width: 100%;
     text-align: center;
     margin-top: 50px;
+    border-radius: 16px;
+    padding: 22px 18px;
+}
+
+.profile-container.card-style-default {
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.profile-container.card-style-glass {
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(6px);
+}
+
+.profile-container.card-style-solid {
+    background: #eef5ff;
+}
+
+.profile-container.text-align-left,
+.profile-container.text-align-left .name,
+.profile-container.text-align-left .demographics,
+.profile-container.text-align-left .bio {
+    text-align: left;
+}
+
+.profile-container.text-align-center,
+.profile-container.text-align-center .name,
+.profile-container.text-align-center .demographics,
+.profile-container.text-align-center .bio {
+    text-align: center;
 }
 
 .profile-pic {
@@ -64,6 +93,29 @@ body {
     font-weight: 600;
     transition: all 0.2s ease-in-out;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.profile-container.link-style-pill .link-button {
+    border-radius: 999px;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    text-decoration: none;
+}
+
+.profile-container.link-style-box .link-button {
+    border-radius: 10px;
+    border: 1px solid #b8d3ff;
+    background-color: #eaf3ff;
+    text-decoration: none;
+}
+
+.profile-container.link-style-underline .link-button {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 8px 0;
+    text-decoration: underline;
 }
 
 .link-button:hover {

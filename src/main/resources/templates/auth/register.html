@@ -2,95 +2,114 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up | Link Garden</title>
-    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <title>Sign Up | HyperLink</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
+
 <body>
-<main class="auth-page">
-    <section class="auth-card">
-        <h1 class="auth-title">Create your account</h1>
-        <p class="auth-subtitle">Set up your profile and add the links you want to share.</p>
 
-        <form class="auth-form" th:action="@{/register}" th:object="${user}" method="post">
-            <label for="username">Username</label>
-            <input id="username" type="text" th:field="*{username}" required />
+<section class="signup-section">
 
-            <label for="password">Password</label>
-            <input id="password" type="password" th:field="*{password}" required />
+    <form th:action="@{/register}" th:object="${user}" method="post" class="signup-form">
 
-            <label for="name">Display Name</label>
-            <input id="name" type="text" th:field="*{name}" />
+        <h2><a th:href="@{/}">HyperLink</a></h2>
 
-            <label for="age">Age</label>
-            <input id="age" type="text" th:field="*{age}" />
+        <h1>Create your account</h1>
 
-            <label for="pronouns">Pronouns</label>
-            <input id="pronouns" type="text" th:field="*{pronouns}" />
+        <p>Get started with your personal link hub</p>
 
-            <label for="bio">Bio</label>
-            <textarea id="bio" th:field="*{bio}"></textarea>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" placeholder="Username" required />
 
-            <label for="profile-picture">Profile Picture URL</label>
-            <input id="profile-picture" type="text" th:field="*{profilePicture}" />
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" placeholder="Password" required />
 
-            <label for="theme">Theme</label>
-            <select id="theme" th:field="*{theme}">
-                <option th:each="themeOption : ${themes}"
-                        th:value="${themeOption}"
-                        th:text="${themeOption}"></option>
-            </select>
+        <label>Display Name:</label>
+        <input type="text" th:field="*{name}" placeholder="Display Name" />
 
-            <h3 class="links-heading">Add Your Links</h3>
-            <p class="links-subheading">Fill out the links you want to share.</p>
+        <label>Age:</label>
+        <input type="text" th:field="*{age}" placeholder="Age" />
 
-            <div id="links-container">
-                <div th:each="link, stat : *{socialLinks}" class="link-entry">
-                    <h4>Link <span class="link-number" th:text="${stat.count}">1</span></h4>
+        <label>Pronouns:</label>
+        <input type="text" th:field="*{pronouns}" placeholder="Pronouns" />
 
-                    <label>Title</label>
-                    <input type="text" th:field="*{socialLinks[__${stat.index}__].title}" placeholder="e.g., My Portfolio" />
+        <label>Bio:</label>
+        <textarea th:field="*{bio}" placeholder="Tell people about yourself"></textarea>
 
-                    <label>URL</label>
-                    <input type="url" th:field="*{socialLinks[__${stat.index}__].url}" placeholder="https://..." />
-                </div>
+        <label>Profile Picture URL:</label>
+        <input type="text" th:field="*{profilePicture}" placeholder="Profile Image URL" />
+
+        <label>Theme:</label>
+        <select th:field="*{theme}">
+            <option th:each="themeOption : ${themes}"
+                    th:value="${themeOption}"
+                    th:text="${themeOption}">
+            </option>
+        </select>
+
+        <h3>Add Your Links</h3>
+        <p>Fill out the links you want to share.</p>
+
+        <div id="links-container">
+
+            <div th:each="link, stat : *{socialLinks}" class="link-entry">
+
+                <h4>Link <span class="link-number" th:text="${stat.count}">1</span></h4>
+
+                <label>Title:</label>
+                <input type="text"
+                       th:field="*{socialLinks[__${stat.index}__].title}"
+                       placeholder="e.g., My Portfolio" />
+
+                <label>URL:</label>
+                <input type="url"
+                       th:field="*{socialLinks[__${stat.index}__].url}"
+                       placeholder="https://..." />
+
             </div>
 
-            <button type="button" id="add-link-btn" class="auth-btn auth-btn-secondary">Add Another Link</button>
-            <hr class="auth-divider">
-            <button type="submit" class="auth-btn auth-btn-primary">Sign Up</button>
-        </form>
-        <p class="auth-helper">Already have an account? <a th:href="@{/login}">Log in here</a>.</p>
-    </section>
-</main>
+        </div>
+
+        <button type="button" id="add-link-btn">Add Another Link</button>
+
+        <button type="submit" id="signup-btn">Create Account</button>
+
+        <a th:href="@{/login}">Already have an account? Log in</a>
+
+    </form>
+
+</section>
+
+<footer>
+    <p>&copy; 2026 HyperLink. All rights reserved.</p>
+</footer>
+
 
 <script>
     document.getElementById('add-link-btn').addEventListener('click', function() {
-        // Find the container holding the links
+
         const container = document.getElementById('links-container');
 
-        // Count how many links currently exist to determine the next index number
         const linkEntries = container.getElementsByClassName('link-entry');
-        const nextIndex = linkEntries.length; // If there is 1 link, the next index is 1 (since it starts at 0)
-        const displayCount = nextIndex + 1;   // The number shown to the user (Link 2, Link 3, etc.)
+        const nextIndex = linkEntries.length;
+        const displayCount = nextIndex + 1;
 
-        // Create a new div element for the new link
         const newLinkDiv = document.createElement('div');
         newLinkDiv.className = 'link-entry';
 
-        // Insert the HTML for the new inputs, carefully injecting the nextIndex into the 'name' attributes
         newLinkDiv.innerHTML = `
                 <h4>Link <span class="link-number">${displayCount}</span></h4>
 
-                <label>Title</label>
+                <label>Title:</label>
                 <input type="text" name="socialLinks[${nextIndex}].title" placeholder="e.g., Twitter" />
 
-                <label>URL</label>
+                <label>URL:</label>
                 <input type="url" name="socialLinks[${nextIndex}].url" placeholder="https://..." />
             `;
 
-        // Append the new link block to the bottom of the container
         container.appendChild(newLinkDiv);
     });
 </script>
+
 </body>
 </html>
