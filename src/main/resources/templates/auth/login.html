@@ -7,9 +7,19 @@
 </head>
 
 <body>
+<nav class="nav">
+    <div class="nav-left">
+        <a th:href="@{/}" id="link-garden">HyperLink</a>
+    </div>
+    <div class="nav-center">
+        <a th:href="@{/}">Templates</a>
+    </div>
+    <div class="nav-right">
+        <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
+    </div>
+</nav>
+<main class="auth-page">
 <section class="login-section">
-
-
 
     <form th:action="@{/login}" method="post" class="login-form">
         <h2><a th:href="@{/}">HyperLink</a></h2>
@@ -27,9 +37,13 @@
             <p style="color: green;">Registration successful! Please log in.</p>
         </div>
 
-        <input type="text" name="username" placeholder="Email" required /><br/>
+        <label>
+            <input type="text" name="username" placeholder="Username" required /><br/>
+        </label>
 
-        <input type="password" name="password" placeholder="Password" required /><br/>
+        <label>
+            <input type="password" name="password" placeholder="Password" required /><br/>
+        </label>
 
         <button type="submit" id="login-btn">Log In</button>
         <a th:href="@{/register}">Don't have an account? Sign up</a>
@@ -42,6 +56,6 @@
     <p>&copy; 2026 HyperLink. All rights reserved.</p>
 </footer>
 
-
+</main>
 </body>
 </html>

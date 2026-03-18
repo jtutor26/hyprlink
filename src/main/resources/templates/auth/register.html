@@ -7,10 +7,25 @@
 </head>
 
 <body>
+<nav class="nav">
+    <div class="nav-left">
+        <a th:href="@{/}" id="link-garden">HyperLink</a>
+    </div>
+    <div class="nav-center">
+        <a th:href="@{/}">Templates</a>
+    </div>
+    <div class="nav-right">
+        <a th:href="@{/login}">Sign In</a>
+    </div>
+</nav>
+<main class="auth-page">
 
 <section class="signup-section">
+    <p th:if="${registerUser}">
+        This works!
+    </p>
 
-    <form th:action="@{/register}" th:object="${user}" method="post" class="signup-form">
+    <form th:action="@{/register/check}" th:object="${user}" method="post" class="signup-form">
 
         <h2><a th:href="@{/}">HyperLink</a></h2>
 
@@ -18,11 +33,16 @@
 
         <p>Get started with your personal link hub</p>
 
-        <label>Username:</label>
-        <input type="text" th:field="*{username}" placeholder="Username" required />
+        <label for="username">Username:</label>
+        <p th:if="${userAlreadyExists}" class="auth-message auth-message-error">Username is already taken.</p>
+        <p th:if="${invalidUsername}" class="auth-message auth-message-error">Username is invalid.</p>
+        <input id="username" type="text" th:field="*{username}" placeholder="Username" required />
 
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" placeholder="Password" required />
+        <label for="password">Password</label>
+        <p th:if="${invalidPassword}" class="auth-message auth-message-error">
+            Password is invalid, can't contain spaces before or after password.
+        </p>
+        <input id="password" type="password" th:field="*{password}" placeholder="Password" required />
 
         <label>Display Name:</label>
         <input type="text" th:field="*{name}" placeholder="Display Name" />
@@ -110,6 +130,6 @@
         container.appendChild(newLinkDiv);
     });
 </script>
-
+</main>
 </body>
 </html>

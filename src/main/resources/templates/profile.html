@@ -8,29 +8,70 @@
 </head>
 
 <body th:class="'theme-' + ${user.theme}">
+<nav class="nav">
+    <div class="nav-left">
+        <a th:href="@{/}" id="link-garden">HyperLink</a>
+    </div>
 
-<!-- Set background image if user has selected one -->
-<div th:with="bgUrl=${user.backgroundImage != null and !user.backgroundImage.isEmpty() ?
-                    (#strings.startsWith(user.backgroundImage, '/images/') ?
-                     user.backgroundImage :
-                     '/images/background-templates/' + user.backgroundImage) : null}"
-     class="profile-container"
-     th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}"
-     th:style="${bgUrl != null} ? 'background: url(' + ${bgUrl} + ') center/cover no-repeat fixed; min-height: 100vh;' : ''">    <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
+    <!-- Need a page just for viewing templates -->
+    <!-- Just gonna comment out the button for now -->
+    <div class="nav-center">
+        <!--        <a th:href="@{/}">Templates</a>-->
+    </div>
+    <div th:if="!${signedIn}">
+        <label th:value="${signedIn}"></label>
+        <div class="nav-right">
+            <a th:href="@{/login}">Sign In</a>
+            <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
+        </div>
+    </div>
+    <div th:if="${signedIn}">
+        <div th:if="${usersProfile}" class="nav-right">
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+        <div th:if="!${usersProfile}" class="nav-right">
+            <form th:action="@{/profile/find}" method="post">
+                <label hidden="hidden">
+                    <input type="text" autocomplete="off" name="userName" th:value="${principalName}" hidden>
+                </label>
+                <button class="" type="submit">Profile Page</button>
+            </form>
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="profile-container">
+    <!-- Set background image if user has selected one -->
+    <div th:with="bgUrl=${user.backgroundImage != null and !user.backgroundImage.isEmpty() ?
+                        (#strings.startsWith(user.backgroundImage, '/images/') ?
+                         user.backgroundImage :
+                         '/images/background-templates/' + user.backgroundImage) : null}"
+         class="profile-container"
+         th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}"
+         th:style="${bgUrl != null} ? 'background: url(' + ${bgUrl} + ') center/cover no-repeat fixed; min-height: 100vh;' : ''"
+    >
+        <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
 
-    <h1 class="name" th:text="${user.name}">Default Name</h1>
+        <h1 class="name" th:text="${user.name}">Default Name</h1>
 
-    <p class="demographics">
-        <span th:text="${user.age}">Age</span> • <span th:text="${user.pronouns}">Pronouns</span>
-    </p>
+        <p class="demographics">
+            <span th:text="${user.age}">Age</span> • <span th:text="${user.pronouns}">Pronouns</span>
+        </p>
 
-    <p class="bio" th:text="${user.bio}">Default bio text goes here.</p>
+        <p class="bio" th:text="${user.bio}">Default bio text goes here.</p>
 
-    <ul class="link-list">
-        <li th:each="link : ${user.socialLinks}">
-            <a class="link-button" th:href="${link.url}" target="_blank" th:text="${link.title}">Link Title</a>
-        </li>
-    </ul>
+        <ul class="link-list">
+            <li th:each="link : ${user.socialLinks}">
+                <a class="link-button" th:href="${link.url}" target="_blank" th:text="${link.title}">Link Title</a>
+            </li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

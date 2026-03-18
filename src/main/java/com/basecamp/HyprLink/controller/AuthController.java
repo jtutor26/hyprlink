@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 @Controller
 public class AuthController {
 
@@ -26,6 +27,34 @@ public class AuthController {
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", authService.prepareRegistrationFormData());
         model.addAttribute("themes", authService.getAvailableThemes());
+        return "auth/register";
+    }
+
+    @PostMapping("/register/check")
+    public String checkRegistrationForm(@ModelAttribute User user, Model model) {
+        boolean validUser = true;
+        model.addAttribute("themes", List.of("default", "dark"));
+        if (!authService.checkUsername(user.getUsername())) {
+            model.addAttribute("invalidUsername", true);
+            validUser = false;
+            System.out.print("Invalid username");
+        }
+        if (authService.checkUserDoesNotExist(user.getUsername())) {
+            model.addAttribute("userAlreadyExists", true);
+            if (validUser) {
+                validUser = false;
+            }
+            System.out.print("Username exists alredy");
+        }
+        if (!authService.checkPassword(user.getPassword())) {
+            model.addAttribute("invalidPassword", true);
+            if (validUser) {
+                validUser = false;
+            }
+        }
+        if (validUser) {
+            return registerUser(user);
+        }
         return "auth/register";
     }
 
