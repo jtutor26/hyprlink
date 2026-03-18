@@ -33,8 +33,8 @@ public class ProfileController {
         model.addAttribute("user", user);
         return "profile";
     }
-    @PostMapping("/profile/find") public String searchProfile(@RequestParam String userName, Principal principal, Model model) {
-        return processUserInfoByUsername(userName, principal, model);
+    @GetMapping("/profile") public String searchProfile(Principal principal, Model model) {
+        return processUserInfoByUsername(principal.getName(), principal, model);
     }
     @GetMapping("/profile/username/{userName}")
     public String getProfileByUsername(@PathVariable String userName, Principal principal, Model model) {
