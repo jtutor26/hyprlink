@@ -7,7 +7,7 @@ This suite includes **9 unit tests** that validate:
 - returned view names
 - model attribute population
 - redirects for form submissions
-- service-layer delegation
+- repository/service delegation
 - edge-case controller flows
 
 ## Test Configuration
@@ -44,28 +44,27 @@ This suite includes **9 unit tests** that validate:
 
 ### DashboardController Tests (3 tests)
 
-#### 4. testShowDashboard_PopulatesModelAndReturnsDashboardView
+#### 4. testShowDashboard_UserExists_PopulatesModelAndReturnsDashboardView
 - **Purpose:** Verify dashboard page model setup for authenticated user
-- **Scenario:** Invoke `showDashboard(principal, model)` with existing user
+- **Scenario:** Invoke `showDashboard(principal, model)` with existing user from repository
 - **Assertions:**
   - Returned view is `dashboard`
-  - Model contains `user` and `themes`
-  - Dashboard service methods are called
+  - Model contains `user` and dashboard customization collections
+  - Controller appends one blank social-link row for dashboard editing
 
-#### 5. testShowDashboard_UserMissing_ReturnsDashboardWithNullUser
-- **Purpose:** Verify dashboard rendering when service returns null user
-- **Scenario:** Invoke `showDashboard(principal, model)` with missing user
-- **Assertions:**
-  - Returned view is `dashboard`
-  - Model `user` is null
-  - Themes remain populated
-
-#### 6. testSaveProfile_CallsServiceAndRedirects
+#### 5. testSaveProfile_ValidUpdates_FiltersLinksAndRedirects
 - **Purpose:** Verify dashboard save submission behavior
-- **Scenario:** Invoke `saveProfile(updatedData, principal)`
+- **Scenario:** Invoke `saveProfile(updatedData, principal, null, null)`
 - **Assertions:**
-  - Dashboard service receives updated user and principal username
+  - User fields are updated from posted model data
+  - Invalid blank links are filtered out before save
   - Redirect is `redirect:/dashboard?success`
+
+#### 6. testHandleUploadTooLarge_RedirectsWithFlag
+- **Purpose:** Verify upload exception redirect behavior
+- **Scenario:** Invoke `handleUploadTooLarge()`
+- **Assertions:**
+  - Redirect is `redirect:/dashboard?uploadTooLarge`
 
 ### ProfileController Tests (3 tests)
 
@@ -95,15 +94,15 @@ This suite includes **9 unit tests** that validate:
 ## Key Testing Strategies
 
 ### 1. Controller Isolation
-- Services are mocked to isolate controller responsibilities
+- Dependencies are mocked to isolate controller responsibilities
 - Tests focus on MVC behavior (view/model/redirect) and delegation
 
 ### 2. View + Model Validation
-- Each GET endpoint validates both the returned view and model content
+- Each GET endpoint validates both returned view and model content
 - Missing-data paths verify fallback behavior (null model user or 404 view)
 
 ### 3. Delegation Verification
-- POST flows verify service calls with expected inputs
+- POST flows verify repository/service calls with expected inputs
 - Principal-based methods verify username propagation
 
 ### 4. Consistent Test Style
@@ -125,7 +124,7 @@ This suite includes **9 unit tests** that validate:
 
 ### Run a specific test method:
 ```bash
-./mvnw test -Dtest=ProfileControllerTest#testGetProfile_UserMissing_Returns404View
+./mvnw test -Dtest=DashboardControllerTest#testHandleUploadTooLarge_RedirectsWithFlag
 ```
 
 ## Test Results
@@ -139,13 +138,12 @@ This suite includes **9 unit tests** that validate:
 
 The suite covers:
 - ✅ Auth page routing and registration redirect flow
-- ✅ Dashboard view-model composition and save delegation
+- ✅ Dashboard view-model composition, save filtering, and upload exception redirect handling
 - ✅ Profile page success and 404 branches
 - ✅ Principal username propagation for dashboard endpoints
 - ✅ Null/missing edge cases in controller logic
 
 ## Future Enhancements
-- Add MVC-slice tests with `MockMvc` for HTTP-level assertions (status, redirects, flash params)
+- Add MockMvc tests for endpoint-level HTTP assertions
+- Add tests for multipart upload success paths
 - Add tests for validation/error feedback once controller validation is introduced
-- Add security-focused tests for authenticated endpoint behavior
-
