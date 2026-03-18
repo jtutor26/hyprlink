@@ -44,7 +44,7 @@ class ProfileControllerTest {
         when(profileService.getUserProfileById(1L)).thenReturn(user);
 
         // Act
-        String viewName = profileController.getProfile(1L, model);
+        String viewName = profileController.getProfileById(1L, model);
 
         // Assert
         assertThat(viewName).isEqualTo("profile");
@@ -60,7 +60,7 @@ class ProfileControllerTest {
         when(profileService.getUserProfileById(999L)).thenReturn(null);
 
         // Act
-        String viewName = profileController.getProfile(999L, model);
+        String viewName = profileController.getProfileById(999L, model);
 
         // Assert
         assertThat(viewName).isEqualTo("error/404");
@@ -76,7 +76,7 @@ class ProfileControllerTest {
         when(profileService.getUserProfileById(null)).thenReturn(null);
 
         // Act
-        String viewName = profileController.getProfile(null, model);
+        String viewName = profileController.getProfileById(null, model);
 
         // Assert
         assertThat(viewName).isEqualTo("error/404");

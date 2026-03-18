@@ -86,6 +86,16 @@ body {
     text-decoration: underline;
 }
 
+.nav-right button {
+    border: none;
+    background: none;
+    padding: 0 0 3px 0;
+}
+.nav-right button:hover {
+    color: #3b82f6;
+    cursor: pointer;
+}
+
 #sign-up-btn {
     padding: 0.5rem 1rem;
     background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);

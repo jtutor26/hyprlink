@@ -16,5 +16,9 @@ public class ProfileService {
     public User getUserProfileById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
+    public User getUserProfileByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
+    }
 }
 

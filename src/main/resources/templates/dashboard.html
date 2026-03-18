@@ -6,6 +6,28 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
+<nav class="nav">
+    <div class="nav-left">
+        <a th:href="@{/}" id="link-garden">HyperLink</a>
+    </div>
+
+    <!-- Need a page just for viewing templates -->
+    <!-- Just gonna comment out the button for now -->
+    <div class="nav-center">
+        <!--        <a th:href="@{/}">Templates</a>-->
+    </div>
+    <div th:if="${user}" class="nav-right">
+        <form th:action="@{/profile/find}" method="post">
+            <label hidden="hidden">
+                <input type="text" autocomplete="off" name="userName" th:value="${user.username}" hidden>
+            </label>
+            <button class="" type="submit">Profile Page</button>
+        </form>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
 <h2>Your Dashboard</h2>
 <div th:if="${param.success}" class="success-message">
     Profile updated successfully!

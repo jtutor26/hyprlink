@@ -5,14 +5,113 @@
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     margin: 0;
-    padding: 32px;
-    padding-right: 360px;
+    padding: 32px 360px 32px 32px;
     color: #1f2b4d;
     background: #f7faff;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
+
+/* NAVBAR STYLING */
+.nav {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    background: linear-gradient(90deg, #fafbfc 0%, #f5f7fa 50%, #fafbfc 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    align-self: stretch;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #1a1a2e;
+    font-size: 0.92rem;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover:not(#link-garden, #sign-up-btn) {
+    color: #3b82f6;
+}
+
+.nav #link-garden {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #1a1a2e;
+}
+
+.nav-left, .nav-center, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+
+.nav-left a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-left svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+.nav-center {
+    justify-content: center;
+    justify-self: center;
+}
+
+.nav-center a {
+    font-size: 1rem;
+}
+
+.nav-left {
+    justify-self: start;
+    margin-left: 10rem;
+}
+
+.nav-right {
+    justify-self: end;
+    gap: 0.75rem;
+    margin-right: 10rem;
+}
+
+.nav-right a {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.nav-right button {
+    border: none;
+    background: none;
+    padding: 0 0 3px 0;
+}
+.nav-right button:hover {
+    color: #3b82f6;
+    cursor: pointer;
+}
+
+#sign-up-btn {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+    color: white;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+#sign-up-btn:hover {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
 
 h2 {
     margin: 0 0 12px;
