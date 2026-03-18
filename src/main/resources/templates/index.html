@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,12 +16,18 @@
 
 
     <div class="nav-center">
-        <a th:href="@{/}">Templates</a>
+        <a th:href="@{/templates}">Templates</a>
     </div>
 
     <div class="nav-right">
-        <a th:href="@{/auth/register.html}">Sign In</a>
-        <a th:href="@{/auth/login.html}" id="sign-up-btn">Sign Up</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/auth/register.html}">Sign In</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/auth/login.html}" id="sign-up-btn">Sign Up</a>
+
+        <a sec:authorize="isAuthenticated()" href="javascript: document.logoutForm.submit()" role="menuitem" style="color: red; font-weight: bold;" id="logout-link">Logout</a>
+
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out"/>
+        </form>
     </div>
 </nav>
 

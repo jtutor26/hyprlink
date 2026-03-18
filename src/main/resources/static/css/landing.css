@@ -33,7 +33,7 @@ body {
 
 .nav #link-garden {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #1a1a2e;
 }
 
@@ -61,7 +61,7 @@ body {
 }
 
 .nav-center a {
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .nav-left {
@@ -79,6 +79,11 @@ body {
     display: inline-flex;
     align-items: center;
     line-height: 1;
+    font-size: 1.2rem;
+}
+
+.nav-right #logout-link:hover {
+    text-decoration: underline;
 }
 
 #sign-up-btn {
