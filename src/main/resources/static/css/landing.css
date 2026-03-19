@@ -18,6 +18,9 @@ body {
     border-bottom: 1px solid #e0e0e0;
     background: linear-gradient(90deg, #fafbfc 0%, #f5f7fa 50%, #fafbfc 100%);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    left: 0;
+    margin: 0;
 }
 
 .nav a {
@@ -58,10 +61,16 @@ body {
 .nav-center {
     justify-content: center;
     justify-self: center;
+    gap: 1rem;
+    align-items: center;
 }
 
-.nav-center a {
+.nav-center a, .nav-center button {
     font-size: 1.2rem;
+}
+
+.nav button:hover {
+    color: #3b82f6;
 }
 
 .nav-left {
@@ -86,12 +95,12 @@ body {
     text-decoration: underline;
 }
 
-.nav-right button {
+.nav-center button, .nav-right button {
     border: none;
     background: none;
     padding: 0 0 3px 0;
 }
-.nav-right button:hover {
+.nav-center button:hover, .nav-right button:hover {
     color: #3b82f6;
     cursor: pointer;
 }

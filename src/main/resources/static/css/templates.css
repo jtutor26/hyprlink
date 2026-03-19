@@ -18,6 +18,9 @@ body {
     border-bottom: 1px solid #e0e0e0;
     background: linear-gradient(90deg, #fafbfc 0%, #f5f7fa 50%, #fafbfc 100%);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    left: 0;
+    margin: 0;
 }
 
 .nav a {
@@ -58,10 +61,16 @@ body {
 .nav-center {
     justify-content: center;
     justify-self: center;
+    gap: 1rem;
+    align-items: center;
 }
 
-.nav-center a {
-    font-size: 1.4rem;
+.nav-center a, .nav-center button {
+    font-size: 1.2rem;
+}
+
+.nav button:hover {
+    color: #3b82f6;
 }
 
 .nav-left {
@@ -82,6 +91,20 @@ body {
     font-size: 1.2rem;
 }
 
+.nav-right #logout-link:hover {
+    text-decoration: underline;
+}
+
+.nav-center button, .nav-right button {
+    border: none;
+    background: none;
+    padding: 0 0 3px 0;
+}
+.nav-center button:hover, .nav-right button:hover {
+    color: #3b82f6;
+    cursor: pointer;
+}
+
 #sign-up-btn {
     padding: 0.5rem 1rem;
     background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
@@ -97,7 +120,6 @@ body {
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     transform: translateY(-1px);
 }
-
 
 
 
