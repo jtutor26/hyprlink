@@ -58,5 +58,41 @@
 </footer>
 
 </main>
+<div id="login-overlay" class="hidden">
+    <div class="overlay-content">
+        <div class="spinner-container">
+            <div id="loading-spinner" class="spinner"></div>
+            <div id="success-checkmark" class="checkmark hidden">✓</div>
+        </div>
+    </div>
+</div>
+<script>
+    // Wait for the login form to be submitted
+    document.querySelector("form").addEventListener("submit", function(event) {
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+
+        const form = this;
+        const overlay = document.getElementById("login-overlay");
+        const spinner = document.getElementById("loading-spinner");
+        const checkmark = document.getElementById("success-checkmark");
+
+        // 1. Show the dark overlay and white box
+        overlay.classList.remove("hidden");
+
+        // 2. Wait 1.2 seconds (simulating "loading"), then show the checkmark
+        setTimeout(() => {
+            spinner.classList.add("hidden");
+            checkmark.classList.remove("hidden");
+
+            // 3. Wait half a second for the user to see the checkmark, then submit!
+            setTimeout(() => {
+                form.submit();
+            }, 600);
+
+        }, 1200);
+    });
+</script>
 </body>
 </html>
+

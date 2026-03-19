@@ -330,3 +330,59 @@ footer {
         width: 100%;
     }
 }
+
+/* Darkens the background and centers the box */
+#login-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensures it stays on top of everything else */
+}
+
+/* A helper class to hide elements */
+.hidden {
+    display: none !important;
+}
+
+/* The white box behind the animation */
+.overlay-content {
+    background: white;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+/* The green spinning wheel */
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #f3f3f3; /* Light grey track */
+    border-top: 6px solid #28a745; /* Green spinning part */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+/* The spin animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* The checkmark */
+.checkmark {
+    font-size: 60px;
+    color: #28a745; /* Green */
+    font-weight: bold;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* The bouncy pop-in animation for the checkmark */
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
