@@ -36,6 +36,7 @@ public class DashboardController {
 
     private static final String STATIC_BG_DIR = "src/main/resources/static/images/background-templates";
     private static final String PROJECT_BG_DIR = "src/main/resources/background templates";
+    private static final String STATIC_UPLOAD_DIR = "src/main/resources/static/images/uploads";
 
     private final UserRepository userRepository;
 
@@ -74,7 +75,7 @@ public class DashboardController {
 
         if (backgroundFile != null && !backgroundFile.isEmpty()) {
             String filename = saveUploadFile(backgroundFile, principal.getName() + "_bg_");
-            existingUser.setBackgroundImage("/images/" + filename);
+            existingUser.setBackgroundImage("/images/uploads/" + filename);
         } else if (updatedData.getBackgroundImage() != null && !updatedData.getBackgroundImage().isEmpty()) {
             existingUser.setBackgroundImage(updatedData.getBackgroundImage());
         }
@@ -118,6 +119,23 @@ public class DashboardController {
         String safeFilename = Paths.get(filename).getFileName().toString();
         Path path = resolveBackgroundPath(safeFilename);
         if (path == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource resource = new UrlResource(path.toUri());
+        MediaType mediaType = MediaTypeFactory.getMediaType(resource)
+                .orElse(MediaType.APPLICATION_OCTET_STREAM);
+
+        return ResponseEntity.ok()
+                .contentType(mediaType)
+                .body(resource);
+    }
+
+    @GetMapping("/images/uploads/{filename:.+}")
+    public ResponseEntity<Resource> uploadedImage(@PathVariable String filename) throws MalformedURLException {
+        String safeFilename = Paths.get(filename).getFileName().toString();
+        Path path = Paths.get(STATIC_UPLOAD_DIR, safeFilename);
+        if (!path.toFile().isFile()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -195,7 +213,7 @@ public class DashboardController {
     }
 
     private String saveUploadFile(MultipartFile file, String filenamePrefix) throws IOException {
-        String uploadDir = "src/main/resources/static/images/";
+        String uploadDir = STATIC_UPLOAD_DIR + "/";
 
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) {

@@ -54,7 +54,7 @@
                          '/images/background-templates/' + user.backgroundImage) : null}"
          class="profile-container"
          th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}"
-         th:style="${bgUrl != null} ? 'background: url(' + ${bgUrl} + ') center/cover no-repeat fixed; min-height: 100vh;' : ''"
+         th:style="${bgUrl != null ? 'background: url(' + bgUrl + ') center/cover no-repeat fixed; min-height: 100vh;' : ''}"
     >
         <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
 

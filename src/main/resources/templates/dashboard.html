@@ -39,7 +39,7 @@
 
 <p>Click "Edit" next to any field to change it.</p>
 
-<form th:action="@{/dashboard/save}" th:object="${user}" method="post" enctype="multipart/x-www-form-urlencoded">
+<form th:action="@{/dashboard/save}" th:object="${user}" method="post" enctype="multipart/form-data">
 
     <div class="tab-buttons">
         <button type="button" id="general-tab-btn" class="tab-btn active" onclick="showTab('general')">General</button>
