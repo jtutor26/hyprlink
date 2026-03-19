@@ -10,11 +10,127 @@ body {
     min-height: 100vh;
 }
 
+/* NAVBAR STYLING */
+.nav {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    background: linear-gradient(90deg, #fafbfc 0%, #f5f7fa 50%, #fafbfc 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    align-self: stretch;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #1a1a2e;
+    font-size: 0.92rem;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover:not(#link-garden, #sign-up-btn) {
+    color: #3b82f6;
+}
+
+.nav #link-garden {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #1a1a2e;
+}
+
+.nav-left, .nav-center, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-center {
+    justify-content: center;
+    justify-self: center;
+}
+
+.nav-center a {
+    font-size: 1rem;
+}
+
+.nav-left {
+    justify-self: start;
+    margin-left: 10rem;
+}
+
+.nav-right {
+    justify-self: end;
+    gap: 0.75rem;
+    margin-right: 10rem;
+}
+
+.nav-right a {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.nav-right button {
+    border: none;
+    background: none;
+    padding: 0 0 3px 0;
+}
+.nav-right button:hover {
+    color: #3b82f6;
+    cursor: pointer;
+}
+
+#sign-up-btn {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+    color: white;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+#sign-up-btn:hover {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
 .profile-container {
     max-width: 450px;
     width: 100%;
     text-align: center;
     margin-top: 50px;
+    border-radius: 16px;
+    padding: 22px 18px;
+}
+
+.profile-container.card-style-default {
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.profile-container.card-style-glass {
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(6px);
+}
+
+.profile-container.card-style-solid {
+    background: #eef5ff;
+}
+
+.profile-container.text-align-left,
+.profile-container.text-align-left .name,
+.profile-container.text-align-left .demographics,
+.profile-container.text-align-left .bio {
+    text-align: left;
+}
+
+.profile-container.text-align-center,
+.profile-container.text-align-center .name,
+.profile-container.text-align-center .demographics,
+.profile-container.text-align-center .bio {
+    text-align: center;
 }
 
 .profile-pic {
@@ -64,6 +180,29 @@ body {
     font-weight: 600;
     transition: all 0.2s ease-in-out;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.profile-container.link-style-pill .link-button {
+    border-radius: 999px;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    text-decoration: none;
+}
+
+.profile-container.link-style-box .link-button {
+    border-radius: 10px;
+    border: 1px solid #b8d3ff;
+    background-color: #eaf3ff;
+    text-decoration: none;
+}
+
+.profile-container.link-style-underline .link-button {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 8px 0;
+    text-decoration: underline;
 }
 
 .link-button:hover {
