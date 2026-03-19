@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding-top: 80px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -15,12 +15,23 @@ body {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     padding: 1rem 1rem;
-    border-bottom: 1px solid #e0e0e0;
-    background: linear-gradient(90deg, #fafbfc 0%, #f5f7fa 50%, #fafbfc 100%);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     width: 100%;
     left: 0;
     margin: 0;
+
+    /* 1. Make it sticky at the top */
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+
+    /* 2. The Frosted Glass Effect */
+    background: rgba(250, 251, 252, 0.75); /* Semi-transparent white */
+    backdrop-filter: blur(12px); /* Blurs whatever is behind the nav */
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+
+    /* 3. A subtle border to define the edge */
+    border-bottom: 1px solid rgba(224, 224, 224, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
 .nav a {
@@ -45,7 +56,6 @@ body {
     align-items: center;
 }
 
-
 .nav-left a {
     display: inline-flex;
     align-items: center;
@@ -56,6 +66,12 @@ body {
     width: 30px;
     height: 30px;
     display: block;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-left a:hover svg {
+    transform: rotate(-10deg) scale(1.1);
+    color: #3b82f6 !important;
 }
 
 .nav-center {
@@ -67,6 +83,23 @@ body {
 
 .nav-center a, .nav-center button {
     font-size: 1.2rem;
+    position: relative;
+    text-decoration: none;
+}
+
+.nav-center a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+    transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.nav-center a:hover::after {
+    width: 100%;
 }
 
 .nav button:hover {
@@ -89,10 +122,23 @@ body {
     align-items: center;
     line-height: 1;
     font-size: 1.2rem;
+    position: relative;
+    text-decoration: none;
 }
 
-.nav-right #logout-link:hover {
-    text-decoration: underline;
+.nav-right a:not(#sign-up-btn)::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+    transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.nav-right a:not(#sign-up-btn):hover::after {
+    width: 100%;
 }
 
 .nav-center button, .nav-right button {
@@ -114,6 +160,25 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+#sign-up-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    animation: shimmer-beam 5s infinite;
+}
+
+@keyframes shimmer-beam {
+    0%, 70% { left: -100%; }
+    100% { left: 200%; }
 }
 
 #sign-up-btn:hover {
