@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/templates.css}">
+  <title>Template Previews</title>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <a th:href="@{/}" id="link-garden">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="65" height="65" viewBox="0 0 56 56" style="color: rgb(28, 32, 51);"><path fill="currentColor" d="M28 51.906c13.055 0 23.906-10.828 23.906-23.906c0-13.055-10.875-23.906-23.93-23.906C14.899 4.094 4.095 14.945 4.095 28c0 13.078 10.828 23.906 23.906 23.906m0-3.984C16.937 47.922 8.1 39.062 8.1 28c0-11.04 8.813-19.922 19.876-19.922c11.039 0 19.921 8.883 19.945 19.922c.023 11.063-8.883 19.922-19.922 19.922m10.078-30.469c-2.789-2.765-6.258-2.531-9.492.703l-3.328 3.328c-3.305 3.282-3.586 6.774-.774 9.563c.774.797 1.64 1.312 2.274 1.43c.633-.446 1.383-1.266 1.71-2.016q-1.51-.246-2.32-1.055c-1.734-1.758-1.476-4.078.82-6.328l3.212-3.234c2.18-2.18 4.5-2.438 6.234-.703c1.758 1.734 1.547 4.054-.68 6.234l-2.32 2.297c.352.844.375 2.133.023 3.234l3.985-3.937c3.21-3.258 3.469-6.703.656-9.516m-21 21.047c2.79 2.766 6.258 2.531 9.492-.703l3.328-3.328c3.305-3.282 3.586-6.774.774-9.563c-.774-.797-1.64-1.312-2.274-1.43c-.633.446-1.383 1.266-1.71 2.016q1.51.246 2.32 1.055c1.734 1.758 1.476 4.055-.82 6.305l-3.211 3.257c-2.18 2.18-4.5 2.438-6.235.703c-1.758-1.734-1.547-4.054.68-6.234l2.32-2.297c-.352-.867-.375-2.133-.023-3.234l-3.985 3.937c-3.21 3.258-3.469 6.703-.656 9.516"></path></svg>
+      HyperLink </a>
+  </div>
+
+
+  <div class="nav-center">
+    <a th:href="@{/templates}">Templates</a>
+  </div>
+
+  <div class="nav-right">
+    <a sec:authorize="isAnonymous()" th:href="@{/auth/register.html}">Sign In</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/auth/login.html}" id="sign-up-btn">Sign Up</a>
+
+    <a sec:authorize="isAuthenticated()" href="javascript: document.logoutForm.submit()" role="menuitem" style="color: red; font-weight: bold;" id="logout-link">Logout</a>
+
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+      <input hidden type="submit" value="Sign Out"/>
+    </form>
+  </div>
+</nav>
+
+<div class="intro">
+  <h1 style="text-align: center; margin-top: 2rem;">See What You Can Create</h1>
+  <p style="text-align: center;">Browse sample pages for ideas, then build a layout that fits you.</p>
+</div>
+
+<section class="hero">
+  <div class="network-bg" aria-hidden="true">
+    <span class="net-node node-a"></span>
+    <span class="net-node node-b"></span>
+    <span class="net-node node-c"></span>
+    <span class="net-node node-d"></span>
+    <span class="net-node node-e"></span>
+    <span class="net-node node-f"></span>
+    <span class="net-node node-g"></span>
+    <span class="net-node node-h"></span>
+    <span class="net-node node-i"></span>
+    <span class="net-node node-j"></span>
+    <span class="net-node node-k"></span>
+    <span class="net-node node-l"></span>
+    <span class="net-node node-m"></span>
+    <span class="net-node node-n"></span>
+    <span class="net-node node-o"></span>
+    <span class="net-node node-p"></span>
+    <span class="net-node node-q"></span>
+  </div>
+
+
+
+  <div class="template-preview">
+
+    <img th:src="@{/images/default.png}" alt="Template 1 Preview">
+    <img th:src="@{/images/brown.png}" alt="Template 2 Preview">
+    <img th:src="@{/images/plant.png}" alt="Template 8 Preview">
+    <img th:src="@{/images/green.png}" alt="Template 3 Preview">
+    <img th:src="@{/images/pottery.png}" alt="Template 7 Preview">
+    <img th:src="@{/images/pink.png}" alt="Template 4 Preview">
+    <img th:src="@{/images/blue.png}" alt="Template 5 Preview">
+    <img th:src="@{/images/kitchen.png}" alt="Template 9 Preview">
+    <img th:src="@{/images/red.png}" alt="Template 6 Preview">
+  </div>
+
+</section>
+
+<footer>
+  <p>&copy; 2026 HyperLink. All rights reserved.</p>
+</footer>
+
+</footer>
+</body>
+</html>

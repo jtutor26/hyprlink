@@ -242,3 +242,120 @@ footer {
     color: #3b82f6;
     text-decoration: underline;
 }
+
+
+
+/* MOBILE FRIENDLY STYLING */
+@media (max-width: 420px) {
+    .hero h1,
+    .hero h2 {
+        font-size: 1.95rem;
+    }
+
+    .signup-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1rem;
+    }
+
+    .signup-form {
+        box-sizing: border-box;
+        margin: 0.5rem auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    @media (max-width: 900px) {
+        .signup-section {
+            padding: 2rem 1rem;
+        }
+
+        .signup-form {
+            width: 92%;
+            max-width: 520px;
+            padding: 1.25rem;
+        }
+
+        .signup-form h1 {
+            font-size: 1.6rem;
+        }
+
+        .signup-form h2 a {
+            font-size: 1.15rem;
+        }
+
+        .nav-left {
+            margin-left: 1rem;
+        }
+
+        .nav-right {
+            margin-right: 1rem;
+        }
+
+        .signup-form input,
+        .signup-form button {
+            width: 100%;
+            padding: 0.75rem 0.9rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .nav {
+            grid-template-columns: 1fr;
+            row-gap: 0.5rem;
+            padding: 0.75rem;
+        }
+
+        .nav-left, .nav-center, .nav-right {
+            justify-content: center;
+        }
+
+        .nav-left {
+            margin-left: 0;
+        }
+
+        .nav-right {
+            margin-right: 0;
+            gap: 0.5rem;
+        }
+
+        .signup-form {
+            width: 100%;
+            max-width: 100%;
+            margin: 0.75rem;
+            padding: 1rem;
+            border-radius: 12px;
+            gap: 0.5rem;
+        }
+
+        .signup-form input,
+        .signup-form button {
+            padding: 0.9rem;
+            font-size: 1.05rem;
+            width: 100%;
+        }
+
+        .hero {
+            margin-top: 2.5rem;
+            padding: 1rem;
+        }
+
+        footer {
+            font-size: 0.95rem;
+            padding: 1rem;
+        }
+    }
+
+    .template-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .template-option .card {
+        width: 100%;
+    }
+}
