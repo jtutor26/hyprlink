@@ -98,7 +98,7 @@ body {
 .nav-center button, .nav-right button {
     border: none;
     background: none;
-    padding: 0 0 3px 0;
+    padding: 0;
 }
 .nav-center button:hover, .nav-right button:hover {
     color: #3b82f6;

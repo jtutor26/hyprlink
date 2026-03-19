@@ -17,19 +17,30 @@
         </a>
     </div>
 
-    <div th:if="!${user}" class="nav-center">
+    <div th:if="!${signedIn}" class="nav-center">
         <a th:href="@{/templates}">Templates</a>
     </div>
-    <div th:if="${user}" class="nav-center">
-        <a th:href="@{/templates}">Templates</a>
-        <a th:href="@{/dashboard}">Dashboard</a>
+    <div th:if="${signedIn}" class="nav-center">
+        <div th:if="!${usersProfile}" class="nav-center">
+            <a th:href="@{/templates}">Templates</a>
+            <form th:action="@{/profile}" method="get">
+                <label hidden="hidden">
+                    <input type="text" autocomplete="off" name="userName" th:value="${user.username}" hidden>
+                </label>
+                <button type="submit">Profile Page</button>
+            </form>
+            <a th:href="@{/dashboard}">Dashboard</a>
+        </div>
+        <div th:if="${usersProfile}" class="nav-center">
+            <a th:href="@{/templates}">Templates</a>
+            <a th:href="@{/dashboard}">Dashboard</a>
+        </div>
     </div>
-
-    <div th:if="!${user}" class="nav-right">
+    <div th:if="!${signedIn}" class="nav-right">
         <a th:href="@{/login}">Sign In</a>
         <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
     </div>
-    <div th:if="${user}" class="nav-right">
+    <div th:if="${signedIn}" class="nav-right">
         <form th:action="@{/logout}" method="post">
             <button type="submit" style="color: red; font-weight: bold; font-size: 1.2rem" id="logout-link">Logout</button>
         </form>

@@ -15,12 +15,8 @@
       HyperLink
     </a>
   </div>
-
-  <div th:if="!${user}" class="nav-center">
-    <a th:href="@{/templates}">Templates</a>
-  </div>
+  <div th:if="!${user}" class="nav-center"></div>
   <div th:if="${user}" class="nav-center">
-    <a th:href="@{/templates}">Templates</a>
     <form th:action="@{/profile}" method="get">
       <label hidden="hidden">
         <input type="text" autocomplete="off" name="userName" th:value="${user.username}" hidden>
@@ -88,6 +84,5 @@
   <p>&copy; 2026 HyperLink. All rights reserved.</p>
 </footer>
 
-</footer>
 </body>
 </html>
