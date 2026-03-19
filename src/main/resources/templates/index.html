@@ -17,13 +17,6 @@
 
     <div class="nav-center">
         <a th:href="@{/templates}">Templates</a>
-    </div>
-
-    <div th:if="!${user}" class="nav-right">
-        <a th:href="@{/login}">Sign In</a>
-        <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
-    </div>
-    <div th:if="${user}" class="nav-right">
         <form th:action="@{/profile}" method="get">
             <label hidden="hidden">
                 <input type="text" autocomplete="off" name="userName" th:value="${user.username}" hidden>
@@ -31,8 +24,16 @@
             <button type="submit">Profile Page</button>
         </form>
         <a th:href="@{/dashboard}">Dashboard</a>
+    </div>
+
+    <div th:if="!${user}" class="nav-right">
+        <a th:href="@{/login}">Sign In</a>
+        <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
+    </div>
+    <div th:if="${user}" class="nav-right">
+
         <form th:action="@{/logout}" method="post">
-            <button type="submit" style="color: red; font-weight: bold;" id="logout-link">Logout</button>
+            <button type="submit" style="color: red; font-weight: bold; font-size: 1.2rem;" id="logout-link">Logout</button>
         </form>
     </div>
 </nav>
@@ -84,6 +85,7 @@
         </div>
     </div>
 
+    <a th:href="@{/templates}">Templates</a>
 
 
 </section>
