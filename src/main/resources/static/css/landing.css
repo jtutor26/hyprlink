@@ -215,11 +215,21 @@ body {
 .hero h2 {
     margin: 0;
     font-size: 4.5rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 50%, #06b6d4 100%);
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 33%, #06b6d4 66%, #3b82f6 100%);
+    background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-weight: 700;
+
+    /* We comma-separate the animations to run both at once! */
+    animation: text-gradient-flow 6s linear infinite, glow-pulse 3s ease-in-out infinite alternate;
+}
+
+/* The pulsing glow keyframes */
+@keyframes glow-pulse {
+    0% { filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.2)); }
+    100% { filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.7)); }
 }
 
 .hero p {
@@ -254,12 +264,16 @@ body {
 }
 
 @keyframes node-float {
-    0%,
-    100% {
-        transform: translateY(0px);
+    0%, 100% {
+        transform: translate(0px, 0px);
     }
-    50% {
-        transform: translateY(-6px);
+    33% {
+        /* Drifts up and to the right */
+        transform: translate(15px, -20px);
+    }
+    66% {
+        /* Drifts down and to the left */
+        transform: translate(-10px, 15px);
     }
 }
 
@@ -866,4 +880,50 @@ footer {
     .template-option .card {
         width: 100%;
     }
+}
+
+/* Cascade pop-in for the example profile links */
+.profile-links .profile-link {
+    opacity: 0; /* Start invisible */
+    transform: scale(0.8);
+    animation: popInBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Stagger the delays so they appear sequentially */
+.profile-links .profile-link:nth-child(1) { animation-delay: 0.6s; }
+.profile-links .profile-link:nth-child(2) { animation-delay: 0.75s; }
+.profile-links .profile-link:nth-child(3) { animation-delay: 0.9s; }
+.profile-links .profile-link:nth-child(4) { animation-delay: 1.05s; }
+.profile-links .profile-link:nth-child(5) { animation-delay: 1.2s; }
+
+/* The bouncy pop-in keyframe */
+@keyframes popInBounce {
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.profile-skeleton {
+    /* Create a distinct light-blue stripe in the middle of the gradient */
+    background: linear-gradient(90deg, #f0f9ff 25%, #bae6fd 50%, #f0f9ff 75%);
+    background-size: 200% 100%; /* Make the background wider than the element */
+    border-radius: 6px;
+    width: 100%;
+    /* Animate the background position indefinitely */
+    animation: skeleton-shimmer 2s linear infinite;
+}
+
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Add a smooth transition to the logo icon */
+.nav-left svg {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* When the user hovers over the logo link, tilt and grow the icon! */
+.nav-left a:hover svg {
+    transform: rotate(-10deg) scale(1.1);
+    color: #3b82f6 !important; /* Forces the icon to turn bright blue */
 }
