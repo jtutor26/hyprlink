@@ -13,15 +13,15 @@
 
     <!-- Need a page just for viewing templates -->
     <!-- Just gonna comment out the button for now -->
-    <div class="nav-center">
-        <!--        <a th:href="@{/}">Templates</a>-->
+    <div th:if="${user}" class="nav-center">
+        <a th:href="@{/templates}">Templates</a>
     </div>
     <div th:if="${user}" class="nav-right">
-        <form th:action="@{/profile/find}" method="post">
+        <form th:action="@{/profile}" method="get">
             <label hidden="hidden">
                 <input type="text" autocomplete="off" name="userName" th:value="${user.username}" hidden>
             </label>
-            <button class="" type="submit">Profile Page</button>
+            <button type="submit">Profile Page</button>
         </form>
         <form th:action="@{/logout}" method="post">
             <button type="submit">Logout</button>
