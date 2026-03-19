@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <link rel="stylesheet" th:href="@{/css/nav.css}">
-    <link rel="stylesheet" th:href="@{/css/{themeName}.css(themeName=${user.theme})}">
+    <link rel="stylesheet" th:href="@{/css/{themeName}.css(themeName=${user.theme != null ? user.theme : 'default'})}">
     <title th:text="${user.name} + ' | Link Garden'">Link Garden Profile</title>
 </head>
 
-<body th:class="'theme-' + ${user.theme}">
-
-<div class="profile-container">
-    <!-- Set background image if user has selected one -->
-    <div th:with="bgUrl=${user.backgroundImage != null and !user.backgroundImage.isEmpty() ?
+<body th:class="'theme-' + ${user.theme}"
+      th:with="bgUrl=${user.backgroundImage != null and !user.backgroundImage.isEmpty() ?
                         (#strings.startsWith(user.backgroundImage, '/images/') ?
                          user.backgroundImage :
                          '/images/background-templates/' + user.backgroundImage) : null}"
-         class="profile-container"
-         th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}"
-         th:style="${bgUrl != null ? 'background: url(' + bgUrl + ') center/cover no-repeat fixed; min-height: 100vh;' : ''}"
-    >
-        <img class="profile-pic" th:src="${user.profilePicture}" alt="Profile Picture">
+      th:style="${bgUrl != null ? 'background: url(' + bgUrl + ') center/cover no-repeat fixed;' : ''}">
 
-        <h1 class="name" th:text="${user.name}">Default Name</h1>
+<div class="profile-container"
+     th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}">
 
-        <p class="demographics">
-            <span th:text="${user.age}">Age</span> • <span th:text="${user.pronouns}">Pronouns</span>
-        </p>
+    <img class="profile-pic animate-pop-in" th:src="${user.profilePicture}" alt="Profile Picture">
 
-        <p class="bio" th:text="${user.bio}">Default bio text goes here.</p>
+    <h1 class="name animate-fade-up delay-1" th:text="${user.name}">Default Name</h1>
 
-        <ul class="link-list">
-            <li th:each="link : ${user.socialLinks}">
-                <a class="link-button" th:href="${link.url}" target="_blank" th:text="${link.title}">Link Title</a>
-            </li>
-        </ul>
-    </div>
+    <p class="demographics animate-fade-up delay-2">
+        <span th:text="${user.age}">Age</span> • <span th:text="${user.pronouns}">Pronouns</span>
+    </p>
+
+    <p class="bio animate-fade-up delay-3" th:text="${user.bio}">Default bio text goes here.</p>
+
+    <ul class="link-list">
+        <li th:each="link, iterStat : ${user.socialLinks}"
+            class="animate-slide-in"
+            th:style="|animation-delay: ${0.4 + (iterStat.index * 0.15)}s;|">
+
+            <a class="link-button" th:href="${link.url}" target="_blank" th:text="${link.title}">Link Title</a>
+        </li>
+    </ul>
 </div>
+
 </body>
 </html>
