@@ -74,7 +74,6 @@ body {
 .nav-right button {
     border: none;
     background: none;
-    padding: 0 0 3px 0;
 }
 .nav-right button:hover {
     color: #3b82f6;

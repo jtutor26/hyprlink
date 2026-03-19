@@ -54,8 +54,12 @@
     align-items: center;
 }
 
-.nav-center a, .nav-center button {
+.nav-center a {
     font-size: 1.2rem;
+}
+
+.nav-center button {
+    font-size: 1rem;
 }
 
 .nav button:hover {
@@ -87,7 +91,7 @@
 .nav-center button, .nav-right button {
     border: none;
     background: none;
-    padding: 0 0 3px 0;
+    padding: 0;
 }
 .nav-center button:hover, .nav-right button:hover {
     color: #3b82f6;

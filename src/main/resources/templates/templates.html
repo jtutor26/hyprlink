@@ -15,10 +15,7 @@
       HyperLink
     </a>
   </div>
-
-  <div th:if="!${user}" class="nav-center">
-    <a th:href="@{/templates}">Templates</a>
-  </div>
+  <div th:if="!${user}" class="nav-center"></div>
   <div th:if="${user}" class="nav-center">
     <a th:href="@{/templates}">Templates</a>
     <a th:href="@{/profile}">Profile</a>
@@ -83,6 +80,5 @@
   <p>&copy; 2026 HyperLink. All rights reserved.</p>
 </footer>
 
-</footer>
 </body>
 </html>
