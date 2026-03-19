@@ -57,11 +57,14 @@
         <div class="edit-row">
             <strong>Profile Picture:</strong><br/>
             <img id="profile-pic-preview" th:src="${user.profilePicture}" alt="Profile Picture" class="small-preview-pic" />
-            <input type="file" id="profilePictureFile" name="profilePictureFile" accept="image/*" class="file-input" />
-            <p style="font-size: 0.85rem; color: #5f6d8c;">Or paste image URL:</p>
-            <input type="text" th:field="*{profilePicture}" id="profilePicture-input" class="hidden-input" placeholder="https://example.com/pic.jpg" />
-            <button type="button" id="profilePicture-edit-btn" class="action-btn" onclick="toggleEdit('profilePicture')">Edit URL</button>
-            <button type="submit" id="profilePicture-save-btn" class="action-btn save-btn">Save</button>
+            <input style="display: none" type="file" id="profilePictureFile" name="profilePictureFile" accept="image/*" class="file-input" />
+            <p style="font-size: 0.85rem; color: #5f6d8c; display: none" id="profilePicture-edit-p">Or paste image URL:</p>
+            <input style="display: none" type="text" th:field="*{profilePicture}" id="profilePicture-input" placeholder="https://example.com/pic.jpg" />
+            <button type="button" id="profilePicture-edit-btn" class="action-btn" onclick="toggleEdit('profilePicture')">Edit Image</button>
+            <div>
+                <button type="submit" id="profilePicture-save-btn" class="action-btn save-btn">Save</button>
+                <button type="button" id="profilePicture-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('profilePicture')">Cancel</button>
+            </div>
         </div>
 
         <div class="edit-row">
@@ -71,7 +74,10 @@
             <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></div>
 
             <button type="button" id="name-edit-btn" class="action-btn" onclick="toggleEdit('name')">Edit</button>
-            <button type="submit" id="name-save-btn" class="action-btn save-btn">Save</button>
+            <div>
+                <button type="submit" id="name-save-btn" class="action-btn save-btn">Save</button>
+                <button type="button" id="name-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('name')">Cancel</button>
+            </div>
         </div>
 
         <div class="edit-row">
@@ -80,7 +86,10 @@
             <input type="text" th:field="*{age}" id="age-input" class="hidden-input" />
 
             <button type="button" id="age-edit-btn" class="action-btn" onclick="toggleEdit('age')">Edit</button>
-            <button type="submit" id="age-save-btn" class="action-btn save-btn">Save</button>
+            <div>
+                <button type="submit" id="age-save-btn" class="action-btn save-btn">Save</button>
+                <button type="button" id="age-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('age')">Cancel</button>
+            </div>
         </div>
 
         <div class="edit-row">
@@ -89,7 +98,10 @@
             <input type="text" th:field="*{pronouns}" id="pronouns-input" class="hidden-input" />
 
             <button type="button" id="pronouns-edit-btn" class="action-btn" onclick="toggleEdit('pronouns')">Edit</button>
-            <button type="submit" id="pronouns-save-btn" class="action-btn save-btn">Save</button>
+            <div>
+                <button type="submit" id="pronouns-save-btn" class="action-btn save-btn">Save</button>
+                <button type="button" id="pronouns-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('pronouns')">Cancel</button>
+            </div>
         </div>
 
         <div class="edit-row">
@@ -98,7 +110,10 @@
             <textarea th:field="*{bio}" id="bio-input" class="hidden-input bio-input" rows="3"></textarea>
 
             <button type="button" id="bio-edit-btn" class="action-btn" onclick="toggleEdit('bio')">Edit</button>
-            <button type="submit" id="bio-save-btn" class="action-btn save-btn">Save</button>
+            <div>
+                <button type="submit" id="bio-save-btn" class="action-btn save-btn">Save</button>
+                <button type="button" id="bio-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('bio')">Cancel</button>
+            </div>
         </div>
 
         <div class="edit-row">
@@ -112,7 +127,10 @@
             </select>
 
             <button type="button" id="theme-edit-btn" class="action-btn" onclick="toggleEdit('theme')">Edit</button>
-            <button type="submit" id="theme-save-btn" class="action-btn save-btn">Save</button>
+            <div>
+                <button type="submit" id="theme-save-btn" class="action-btn save-btn">Save</button>
+                <button type="button" id="theme-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('theme')">Cancel</button>
+            </div>
         </div>
 
         <h3>Your Links</h3>
@@ -134,7 +152,10 @@
             </div>
 
             <button type="button" th:id="'link' + ${stat.index} + '-edit-btn'" class="action-btn" th:onclick="'toggleEdit(\'link' + ${stat.index} + '\')'">Edit</button>
-            <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn save-btn">Save</button>
+            <div>
+                <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn save-btn">Save</button>
+                <button type="button" th:id="'link' + ${stat.index} + '-cancel-btn'" class="action-btn save-btn" th:onclick="'cancelEdit(\'link' + ${stat.index} + '\')'">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -228,16 +249,26 @@
     function toggleEdit(fieldId) {
         const displaySpan = document.getElementById(fieldId + '-display');
         const inputElement = document.getElementById(fieldId + '-input');
+        const fileUploadElement = document.getElementById(fieldId + 'File');
+        const pElement = document.getElementById(fieldId + '-edit-p');
         const editBtn = document.getElementById(fieldId + '-edit-btn');
         const saveBtn = document.getElementById(fieldId + '-save-btn');
+        const cancelBtn = document.getElementById(fieldId + '-cancel-btn');
 
         if (displaySpan) {
-            displaySpan.style.display = 'none';
+            displaySpan.style.display = 'inline-block';
         }
 
         if (inputElement) {
             inputElement.style.display = 'inline-block';
-            inputElement.focus();
+        }
+
+        if (fileUploadElement) {
+            fileUploadElement.style.display = 'inline-block';
+        }
+
+        if (pElement) {
+            pElement.style.display = 'inline-block';
         }
 
         if (editBtn) {
@@ -246,6 +277,45 @@
 
         if (saveBtn) {
             saveBtn.style.display = 'inline-block';
+        }
+
+        if (cancelBtn) {
+            cancelBtn.style.display = 'inline-block';
+        }
+    }
+    function cancelEdit(fieldId) {
+        const displaySpan = document.getElementById(fieldId + '-display');
+        const inputElement = document.getElementById(fieldId + '-input');
+        const fileUploadElement = document.getElementById(fieldId + 'File');
+        const pElement = document.getElementById(fieldId + '-edit-p');
+        const editBtn = document.getElementById(fieldId + '-edit-btn');
+        const saveBtn = document.getElementById(fieldId + '-save-btn');
+        const cancelBtn = document.getElementById(fieldId + '-cancel-btn');
+
+        if (displaySpan) {
+            displaySpan.style.display = 'inline-block';
+        }
+
+        if (inputElement) {
+            inputElement.style.display = 'none';
+        }
+
+        if (fileUploadElement) {
+            fileUploadElement.style.display = 'none';
+        }
+
+        if (pElement) {
+            pElement.style.display = 'none';
+        }
+
+        if (editBtn) {
+            editBtn.style.display = 'inline-block';
+        }
+        if (saveBtn) {
+            saveBtn.style.display = 'none';
+        }
+        if (cancelBtn) {
+            cancelBtn.style.display = 'none';
         }
     }
 
