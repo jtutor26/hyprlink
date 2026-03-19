@@ -66,36 +66,79 @@
 <div id="login-overlay" class="hidden">
     <div class="overlay-content">
         <div class="spinner-container">
+
             <div id="loading-spinner" class="spinner"></div>
-            <div id="success-checkmark" class="checkmark hidden">✓</div>
+
+            <svg id="success-checkmark" class="animated-svg check-svg hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="svg-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="svg-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+
+            <svg id="error-cross" class="animated-svg cross-svg hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="svg-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="svg-cross" fill="none" d="M16 16 36 36 M36 16 16 36"/>
+            </svg>
+
         </div>
     </div>
 </div>
 <script>
-    // Wait for the login form to be submitted
     document.querySelector("form").addEventListener("submit", function(event) {
-        // Prevent the form from submitting immediately
+        // Prevent standard submission
         event.preventDefault();
 
         const form = this;
         const overlay = document.getElementById("login-overlay");
         const spinner = document.getElementById("loading-spinner");
         const checkmark = document.getElementById("success-checkmark");
+        const cross = document.getElementById("error-cross");
 
-        // 1. Show the dark overlay and white box
+        // 1. Reset UI and show loading spinner
         overlay.classList.remove("hidden");
+        spinner.classList.remove("hidden");
+        checkmark.classList.add("hidden");
+        cross.classList.add("hidden");
 
-        // 2. Wait 1.2 seconds (simulating "loading"), then show the checkmark
-        setTimeout(() => {
-            spinner.classList.add("hidden");
-            checkmark.classList.remove("hidden");
+        // 2. Package up the username, password, and CSRF token automatically!
+        const formData = new URLSearchParams(new FormData(form));
 
-            // 3. Wait half a second for the user to see the checkmark, then submit!
+        // 3. Send the request to Spring Security behind the scenes
+        fetch(form.action || '/login', {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+
+            // Wait 1 second so the user can see the loading spinner
             setTimeout(() => {
-                form.submit();
-            }, 600);
+                spinner.classList.add("hidden");
 
-        }, 1200);
+                // Check the URL Spring Security sent back
+                if (response.url.includes("error")) {
+
+                    // LOGIN FAILED! Show the Red X
+                    cross.classList.remove("hidden");
+
+                    // Wait a moment, then refresh the page to show the normal error message
+                    setTimeout(() => {
+                        window.location.href = '/login?error';
+                    }, 1500);
+
+                } else {
+
+                    // LOGIN SUCCESS! Show the Green Checkmark
+                    checkmark.classList.remove("hidden");
+
+                    // Wait for the animation to finish, then go to dashboard
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1200);
+                }
+            }, 1000);
+
+        }).catch(err => {
+            console.error("Login request failed: ", err);
+            overlay.classList.add("hidden");
+        });
     });
 </script>
 </body>

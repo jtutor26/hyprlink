@@ -455,16 +455,51 @@ footer {
     100% { transform: rotate(360deg); }
 }
 
-/* The checkmark */
-.checkmark {
-    font-size: 60px;
-    color: #28a745; /* Green */
-    font-weight: bold;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+/* =========================================
+   SVG ANIMATIONS (Checkmark & Cross)
+   ========================================= */
+
+.animated-svg {
+    width: 70px;
+    height: 70px;
+    display: block;
+    margin: 0 auto;
 }
 
-/* The bouncy pop-in animation for the checkmark */
-@keyframes popIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+/* Base styles for the outer circles */
+.svg-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 4;
+    stroke-miterlimit: 10;
+    fill: none;
+    /* Draws the circle first */
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+/* Color definitions */
+.check-svg { stroke: #28a745; }
+.cross-svg { stroke: #dc3545; }
+
+/* Base styles for the inner paths (the check and the X) */
+.svg-check, .svg-cross {
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    /* Waits 0.6s for the circle to finish, then draws the inner shape! */
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+/* The X has a longer path, so we adjust its dasharray */
+.svg-cross {
+    stroke-dasharray: 90;
+    stroke-dashoffset: 90;
+}
+
+/* The master keyframe that pushes the lines forward to draw them */
+@keyframes stroke {
+    100% { stroke-dashoffset: 0; }
 }

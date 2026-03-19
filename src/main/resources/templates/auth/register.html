@@ -102,8 +102,82 @@
 
 </section>
 
+    <div id="login-overlay" class="hidden">
+        <div class="overlay-content">
+            <div class="spinner-container">
 
+                <div id="loading-spinner" class="spinner"></div>
 
+                <svg id="success-checkmark" class="animated-svg check-svg hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="svg-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="svg-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+
+                <svg id="error-cross" class="animated-svg cross-svg hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="svg-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="svg-cross" fill="none" d="M16 16 36 36 M36 16 16 36"/>
+                </svg>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const form = this;
+            const overlay = document.getElementById("login-overlay");
+            const spinner = document.getElementById("loading-spinner");
+            const checkmark = document.getElementById("success-checkmark");
+            const cross = document.getElementById("error-cross");
+
+            // Reset UI
+            overlay.classList.remove("hidden");
+            spinner.classList.remove("hidden");
+            checkmark.classList.add("hidden");
+            cross.classList.add("hidden");
+
+            const formData = new URLSearchParams(new FormData(form));
+
+            fetch(form.action || '/register', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                setTimeout(() => {
+                    spinner.classList.add("hidden");
+
+                    // If Spring forwarded us to the login page, the registration worked!
+                    if (response.url.includes("login") || response.url.includes("success")) {
+
+                        checkmark.classList.remove("hidden"); // Draw green check
+
+                        setTimeout(() => {
+                            window.location.href = '/login?success'; // Send them to login
+                        }, 1200);
+
+                    } else {
+
+                        // If we didn't get sent to login, there was a validation error
+                        cross.classList.remove("hidden"); // Draw red X
+
+                        setTimeout(() => {
+                            // Extract the new HTML (which contains the error messages) and inject it
+                            response.text().then(html => {
+                                document.open();
+                                document.write(html);
+                                document.close();
+                            });
+                        }, 1500);
+                    }
+                }, 1000);
+
+            }).catch(err => {
+                console.error("Registration request failed: ", err);
+                overlay.classList.add("hidden");
+            });
+        });
+    </script>
 
 <script>
     document.getElementById('add-link-btn').addEventListener('click', function() {
