@@ -493,3 +493,64 @@ form {
         display: none;
     }
 }
+
+/* Container for the share box */
+.share-box-container {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.share-box-container h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.share-box-container p {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+/* Layout for the input and button to sit side-by-side */
+.share-input-group {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden; /* Keeps the child elements neatly inside the rounded corners */
+}
+
+/* The read-only URL box */
+.share-input-group input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none;
+    background-color: #fff;
+    color: #495057;
+    font-family: monospace; /* Gives it a technical "link" feel */
+    font-size: 1rem;
+    outline: none;
+}
+
+/* The copy button */
+.share-input-group button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.share-input-group button:hover {
+    background-color: #0056b3;
+}

@@ -10,9 +10,6 @@
     <div class="nav-left">
         <a th:href="@{/}" id="link-garden">HyperLink</a>
     </div>
-
-    <!-- Need a page just for viewing templates -->
-    <!-- Just gonna comment out the button for now -->
     <div th:if="${user}" class="nav-center">
         <a th:href="@{/templates}">Templates</a>
     </div>
@@ -28,6 +25,15 @@
         </form>
     </div>
 </nav>
+<div class="share-box-container">
+    <h3>Share Your Profile</h3>
+    <p>Copy your unique link below and share it with your friends!</p>
+
+    <div class="share-input-group">
+        <input type="text" id="profile-link-input" readonly th:data-path="'/profile/id/' + ${user.id}">
+        <button type="button" id="copy-link-btn" onclick="copyProfileLink()">Copy</button>
+    </div>
+</div>
 <h2>Your Dashboard</h2>
 <div th:if="${param.success}" class="success-message">
     Profile updated successfully!
@@ -371,6 +377,44 @@
         updatePreviewBackground();
         updatePreviewDesignStyles();
     });
+</script>
+<script>
+    // 1. Build the full URL when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputField = document.getElementById("profile-link-input");
+        const relativePath = inputField.getAttribute("data-path");
+
+        // window.location.origin automatically gets 'http://localhost:8080' OR your Render URL
+        inputField.value = window.location.origin + relativePath;
+    });
+
+    // 2. The function to copy the link to the clipboard
+    function copyProfileLink() {
+        const inputField = document.getElementById("profile-link-input");
+        const copyButton = document.getElementById("copy-link-btn");
+
+        // Select the text inside the input field
+        inputField.select();
+        inputField.setSelectionRange(0, 99999); // This ensures it works on mobile devices
+
+        // Use the browser's clipboard API to copy the text
+        navigator.clipboard.writeText(inputField.value).then(() => {
+            // Visual polish: Change button text temporarily to show success
+            copyButton.innerText = "Copied! ✓";
+            copyButton.style.backgroundColor = "#28a745"; // Turn button green
+            copyButton.style.color = "white";
+
+            // Change it back to "Copy" after 2 seconds
+            setTimeout(() => {
+                copyButton.innerText = "Copy";
+                copyButton.style.backgroundColor = ""; // Revert to default CSS color
+                copyButton.style.color = "";
+            }, 2000);
+        }).catch(err => {
+            console.error("Failed to copy text: ", err);
+            alert("Failed to copy link. Please copy it manually.");
+        });
+    }
 </script>
 </body>
 </html>
