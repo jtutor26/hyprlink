@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing page</title>
+    <title>HyperLink</title>
     <link rel="stylesheet" th:href="@{/css/landing.css}">
 </head>
 <body>
@@ -20,12 +20,7 @@
     </div>
     <div th:if="${user}" class="nav-center">
         <a th:href="@{/templates}">Templates</a>
-        <form th:action="@{/profile}" method="get">
-            <label hidden="hidden">
-                <input type="text" autocomplete="off" name="userName" th:value="${user.username}" hidden>
-            </label>
-            <button type="submit">Profile Page</button>
-        </form>
+        <a th:href="@{/profile}">Profile</a>
         <a th:href="@{/dashboard}">Dashboard</a>
     </div>
 
@@ -34,8 +29,8 @@
         <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
     </div>
     <div th:if="${user}" class="nav-right">
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" style="color: red; font-weight: bold; font-size: 1.2rem" id="logout-link">Logout</button>
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit" id="logout-btn">Log Out</button>
         </form>
     </div>
 </nav>
@@ -62,7 +57,7 @@
     </div>
     <div class="hero-content">
         <h1>Your Personal</h1>
-        <h2>Hyperlink Page</h2>
+        <h2>HyperLink</h2>
         <p>Bring all your links, content, and profiles together into one simple page you can share anywhere.</p>
 
         <button id="create-garden-btn"><a th:href="@{/register}">Get Started</a></button>
