@@ -54,18 +54,12 @@
     align-items: center;
 }
 
-.nav-center a {
+.nav-center a, .nav-center button {
     font-size: 1.2rem;
 }
 
-.nav-center button {
-    background: none;
-    border: none;
-    font-size: 1rem;
-}
-
-.nav-center button:hover {
-    text-decoration: underline;
+.nav button:hover {
+    color: #3b82f6;
 }
 
 .nav-left {
@@ -90,12 +84,12 @@
     text-decoration: underline;
 }
 
-.nav-right button {
+.nav-center button, .nav-right button {
     border: none;
     background: none;
     padding: 0 0 3px 0;
 }
-.nav-right button:hover {
+.nav-center button:hover, .nav-right button:hover {
     color: #3b82f6;
     cursor: pointer;
 }

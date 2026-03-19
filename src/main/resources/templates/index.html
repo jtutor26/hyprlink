@@ -15,7 +15,10 @@
         </a>
     </div>
 
-    <div class="nav-center">
+    <div th:if="!${user}" class="nav-center">
+        <a th:href="@{/templates}">Templates</a>
+    </div>
+    <div th:if="${user}" class="nav-center">
         <a th:href="@{/templates}">Templates</a>
         <form th:action="@{/profile}" method="get">
             <label hidden="hidden">
@@ -31,9 +34,8 @@
         <a th:href="@{/register}" id="sign-up-btn">Sign Up</a>
     </div>
     <div th:if="${user}" class="nav-right">
-
         <form th:action="@{/logout}" method="post">
-            <button type="submit" style="color: red; font-weight: bold; font-size: 1.2rem;" id="logout-link">Logout</button>
+            <button type="submit" style="color: red; font-weight: bold; font-size: 1.2rem" id="logout-link">Logout</button>
         </form>
     </div>
 </nav>
@@ -64,7 +66,7 @@
         <p>Bring all your links, content, and profiles together into one simple page you can share anywhere.</p>
 
         <button id="create-garden-btn"><a th:href="@{/register}">Get Started</a></button>
-        <button id="browse-btn"><a th:href="@{/}">Browse templates</a></button>
+        <button id="browse-btn"><a th:href="@{/templates}">Browse templates</a></button>
 
         <div class="profile-card">
             <div class="profile-card-inner">
