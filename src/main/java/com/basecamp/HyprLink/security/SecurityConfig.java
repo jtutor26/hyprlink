@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/register", "/register/check", "/css/**", "/images/**", "/error").permitAll()
 
                 // 2. Allow public access to all profile pages
-                .requestMatchers("/profile/**").permitAll()
+                .requestMatchers("/profile/**", "/templates").permitAll()
 
                 // 3. Everything else requires a login (This MUST be the last rule!)
                 .anyRequest().authenticated()
