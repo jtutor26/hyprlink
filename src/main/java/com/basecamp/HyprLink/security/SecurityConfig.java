@@ -20,12 +20,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register/**", "/login", "/css/**", "/profile/**", "/", "/templates", "/images/**").permitAll() // Public pages
-                        .anyRequest().authenticated() // Everything else requires login
-                )
+                // 1. Allow public access to home, login, assets, AND the error page!
+                .requestMatchers("/", "/login", "/register", "/register/check", "/css/**", "/images/**", "/error").permitAll()
+
+                // 2. Allow public access to all profile pages
+                .requestMatchers("/profile/**", "/templates").permitAll()
+
+                // 3. Everything else requires a login (This MUST be the last rule!)
+                .anyRequest().authenticated()
+        )
                 .formLogin(form -> form
                         .loginPage("/login") // Custom login page
-                        .defaultSuccessUrl("/profile", true) // Where to go after successful login
+                        .defaultSuccessUrl("/dashboard", true) // Where to go after successful login
                         .permitAll()
                 )
                 .logout(logout -> logout
