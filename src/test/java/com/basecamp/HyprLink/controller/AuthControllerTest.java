@@ -52,7 +52,7 @@ class AuthControllerTest {
         // Arrange
         Model model = new ExtendedModelMap();
         User formUser = new User();
-        List<String> themes = List.of("default");
+        List<String> themes = java.util.Arrays.asList("default");
 
         when(authService.prepareRegistrationFormData()).thenReturn(formUser);
         when(authService.getAvailableThemes()).thenReturn(themes);

@@ -59,7 +59,7 @@ class UserRepositoryTest {
         link2.setTitle("Twitter");
         link2.setUrl("https://twitter.com/johndoe");
 
-        testUser.setSocialLinks(new ArrayList<>(List.of(link1, link2)));
+        testUser.setSocialLinks(new ArrayList<>(java.util.Arrays.asList(link1, link2)));
     }
 
     // ==================== Custom Query Tests ====================
@@ -336,7 +336,7 @@ class UserRepositoryTest {
     @DisplayName("Should persist user with empty social links")
     void testSave_EmptySocialLinks() {
         // Arrange
-        testUser.setSocialLinks(List.of());
+        testUser.setSocialLinks(java.util.Collections.emptyList());
 
         // Act
         User savedUser = userRepository.save(testUser);

@@ -47,7 +47,7 @@ class DashboardServiceTest {
         SocialLink existingLink = new SocialLink();
         existingLink.setTitle("Portfolio");
         existingLink.setUrl("https://example.com/portfolio");
-        existingUser.setSocialLinks(new ArrayList<>(List.of(existingLink)));
+        existingUser.setSocialLinks(new ArrayList<>(java.util.Arrays.asList(existingLink)));
     }
 
     // ==================== Dashboard Retrieval Tests ====================
@@ -112,7 +112,7 @@ class DashboardServiceTest {
         nullFields.setTitle(null);
         nullFields.setUrl(null);
 
-        updatedData.setSocialLinks(List.of(validLink, blankTitle, blankUrl, nullFields));
+        updatedData.setSocialLinks(java.util.Arrays.asList(validLink, blankTitle, blankUrl, nullFields));
 
         when(userRepository.findByUsername("johndoe")).thenReturn(Optional.of(existingUser));
         when(userRepository.save(existingUser)).thenReturn(existingUser);
@@ -183,7 +183,7 @@ class DashboardServiceTest {
         blankTwo.setTitle("");
         blankTwo.setUrl("");
 
-        updatedData.setSocialLinks(List.of(blankOne, blankTwo));
+        updatedData.setSocialLinks(java.util.Arrays.asList(blankOne, blankTwo));
 
         when(userRepository.findByUsername("johndoe")).thenReturn(Optional.of(existingUser));
         when(userRepository.save(existingUser)).thenReturn(existingUser);

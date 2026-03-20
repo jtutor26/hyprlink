@@ -33,7 +33,7 @@ body {
 
 .nav #link-garden {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #1a1a2e;
 }
 
@@ -61,7 +61,7 @@ body {
 }
 
 .nav-center a {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .nav-left {
@@ -79,21 +79,6 @@ body {
     display: inline-flex;
     align-items: center;
     line-height: 1;
-    font-size: 1.2rem;
-}
-
-.nav-right #logout-link:hover {
-    text-decoration: underline;
-}
-
-.nav-right button {
-    border: none;
-    background: none;
-    padding: 0 0 3px 0;
-}
-.nav-right button:hover {
-    color: #3b82f6;
-    cursor: pointer;
 }
 
 #sign-up-btn {
@@ -111,7 +96,6 @@ body {
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     transform: translateY(-1px);
 }
-
 
 /* INTRO STYLING */
 .hero {

@@ -112,7 +112,7 @@ class AuthServiceTest {
     @DisplayName("Should return available themes")
     void testGetAvailableThemes_ReturnsDefaultTheme() {
         // Act
-        var themes = authService.getAvailableThemes();
+        java.util.List<String> themes = authService.getAvailableThemes();
 
         // Assert
         assertThat(themes).containsExactly("default");

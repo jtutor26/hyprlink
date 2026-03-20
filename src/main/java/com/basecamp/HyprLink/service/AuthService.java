@@ -50,7 +50,7 @@ public class AuthService {
 
     //This method can be expanded to fetch themes from the database in the future
     public List<String> getAvailableThemes() {
-        return List.of("default");
+        return java.util.Arrays.asList("default");
     }
 }
 

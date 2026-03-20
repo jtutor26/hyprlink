@@ -53,7 +53,7 @@ class DashboardControllerTest {
         SocialLink existingLink = new SocialLink();
         existingLink.setTitle("Portfolio");
         existingLink.setUrl("https://example.com");
-        dashboardUser.setSocialLinks(new ArrayList<>(List.of(existingLink)));
+        dashboardUser.setSocialLinks(new ArrayList<>(java.util.Arrays.asList(existingLink)));
 
         when(principal.getName()).thenReturn("johndoe");
         when(userRepository.findByUsername("johndoe")).thenReturn(Optional.of(dashboardUser));
@@ -64,11 +64,11 @@ class DashboardControllerTest {
         // Assert
         assertThat(viewName).isEqualTo("dashboard");
         assertThat(model.getAttribute("user")).isSameAs(dashboardUser);
-        assertThat(model.getAttribute("themes")).isEqualTo(List.of("default", "dark"));
-        assertThat(model.getAttribute("linkStyles")).isEqualTo(List.of("pill", "box", "underline"));
-        assertThat(model.getAttribute("textAlignments")).isEqualTo(List.of("center", "left"));
-        assertThat(model.getAttribute("buttonColors")).isEqualTo(List.of("blue", "green", "red", "purple", "orange"));
-        assertThat(model.getAttribute("fontFamilies")).isEqualTo(List.of("System", "Georgia", "Courier", "Arial"));
+        assertThat(model.getAttribute("themes")).isEqualTo(java.util.Arrays.asList("default", "dark"));
+        assertThat(model.getAttribute("linkStyles")).isEqualTo(java.util.Arrays.asList("pill", "box", "underline"));
+        assertThat(model.getAttribute("textAlignments")).isEqualTo(java.util.Arrays.asList("center", "left"));
+        assertThat(model.getAttribute("buttonColors")).isEqualTo(java.util.Arrays.asList("blue", "green", "red", "purple", "orange"));
+        assertThat(model.getAttribute("fontFamilies")).isEqualTo(java.util.Arrays.asList("System", "Georgia", "Courier", "Arial"));
         assertThat(model.getAttribute("backgrounds")).isInstanceOf(List.class);
         assertThat(dashboardUser.getSocialLinks()).hasSize(2);
         assertThat(dashboardUser.getSocialLinks().get(1).getTitle()).isNull();
@@ -82,7 +82,7 @@ class DashboardControllerTest {
         // Arrange
         User existingUser = new User();
         existingUser.setUsername("johndoe");
-        existingUser.setSocialLinks(new ArrayList<>(List.of(new SocialLink())));
+        existingUser.setSocialLinks(new ArrayList<>(java.util.Arrays.asList(new SocialLink())));
 
         User updatedData = new User();
         updatedData.setName("New Name");
@@ -105,7 +105,7 @@ class DashboardControllerTest {
         blankLink.setTitle(" ");
         blankLink.setUrl(" ");
 
-        updatedData.setSocialLinks(List.of(validLink, blankLink));
+        updatedData.setSocialLinks(java.util.Arrays.asList(validLink, blankLink));
 
         when(principal.getName()).thenReturn("johndoe");
         when(userRepository.findByUsername("johndoe")).thenReturn(Optional.of(existingUser));

@@ -41,7 +41,7 @@ public class DataLoader {
                 link2.setUrl("https://example.com/portfolio");
 
                 // Attach links to user1
-                user1.setSocialLinks(List.of(link1, link2));
+                user1.setSocialLinks(java.util.Arrays.asList(link1, link2));
 
 
                 // ==========================================
@@ -66,14 +66,14 @@ public class DataLoader {
                 link4.setUrl("https://example.com/store");
 
                 // Attach links to user2
-                user2.setSocialLinks(List.of(link3, link4));
+                user2.setSocialLinks(java.util.Arrays.asList(link3, link4));
 
 
                 // ==========================================
                 // SAVE TO DATABASE
                 // ==========================================
                 // Saving the users automatically saves their associated links!
-                userRepository.saveAll(List.of(user1, user2));
+                userRepository.saveAll(java.util.Arrays.asList(user1, user2));
 
                 System.out.println("✅ Generic Dummy Data Loaded Successfully!");
             }
