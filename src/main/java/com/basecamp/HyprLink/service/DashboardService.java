@@ -42,9 +42,9 @@ public class DashboardService {
         // Update Social Links: Filter out any completely blank ones
         if (updatedData.getSocialLinks() != null) {
             List<SocialLink> validLinks = updatedData.getSocialLinks().stream()
-                    .filter(link -> link.getTitle() != null && !link.getTitle().isBlank()
-                            && link.getUrl() != null && !link.getUrl().isBlank())
-                    .toList();
+                    .filter(link -> link.getTitle() != null && !link.getTitle().trim().isEmpty()
+                            && link.getUrl() != null && !link.getUrl().trim().isEmpty())
+                    .collect(java.util.stream.Collectors.toList());
 
             // Clear the old links and add the newly edited/filtered ones
             existingUser.getSocialLinks().clear();
@@ -56,7 +56,7 @@ public class DashboardService {
 
     // Can be updated to match themes found in the database
     public List<String> getAvailableThemes() {
-        return List.of("default");
+        return java.util.Arrays.asList("default");
     }
 }
 

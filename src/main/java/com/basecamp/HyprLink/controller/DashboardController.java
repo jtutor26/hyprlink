@@ -36,7 +36,6 @@ public class DashboardController {
 
     private static final String STATIC_BG_DIR = "src/main/resources/static/images/background-templates";
     private static final String PROJECT_BG_DIR = "src/main/resources/background templates";
-    private static final String STATIC_UPLOAD_DIR = "src/main/resources/static/images/uploads";
 
     private final UserRepository userRepository;
 
@@ -65,7 +64,7 @@ public class DashboardController {
                               @RequestParam(value = "profilePictureFile", required = false) MultipartFile profilePictureFile,
                               @RequestParam(value = "backgroundFile", required = false) MultipartFile backgroundFile) throws IOException {
 
-        User existingUser = userRepository.findByUsername(principal.getName()).orElseThrow();
+        User existingUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
         if (profilePictureFile != null && !profilePictureFile.isEmpty()) {
             String filename = saveUploadFile(profilePictureFile, principal.getName() + "_");
             existingUser.setProfilePicture("/images/uploads/" + filename);
@@ -75,7 +74,7 @@ public class DashboardController {
 
         if (backgroundFile != null && !backgroundFile.isEmpty()) {
             String filename = saveUploadFile(backgroundFile, principal.getName() + "_bg_");
-            existingUser.setBackgroundImage("/images/uploads/" + filename);
+            existingUser.setBackgroundImage("/images/" + filename);
         } else if (updatedData.getBackgroundImage() != null && !updatedData.getBackgroundImage().isEmpty()) {
             existingUser.setBackgroundImage(updatedData.getBackgroundImage());
         }
@@ -90,13 +89,13 @@ public class DashboardController {
         existingUser.setTextAlign(updatedData.getTextAlign());
         existingUser.setButtonColor(updatedData.getButtonColor());
         existingUser.setFontFamily(updatedData.getFontFamily());
-        System.out.println("Hello World");
+
         // Keep only links that have both a title and a URL
         if (updatedData.getSocialLinks() != null) {
             List<SocialLink> validLinks = new ArrayList<>();
             for (SocialLink link : updatedData.getSocialLinks()) {
-                if (link.getTitle() != null && !link.getTitle().isBlank()
-                        && link.getUrl() != null && !link.getUrl().isBlank()) {
+                if (link.getTitle() != null && !link.getTitle().trim().isEmpty()
+                        && link.getUrl() != null && !link.getUrl().trim().isEmpty()) {
                     validLinks.add(link);
                 }
             }
@@ -106,6 +105,14 @@ public class DashboardController {
         }
 
         userRepository.save(existingUser);
+        return "redirect:/dashboard?success";
+    }
+
+    @PostMapping("/dashboard/clear-background")
+    public String clearBackground(Principal principal) {
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setBackgroundImage(null);
+        userRepository.save(user);
         return "redirect:/dashboard?success";
     }
 
@@ -119,23 +126,6 @@ public class DashboardController {
         String safeFilename = Paths.get(filename).getFileName().toString();
         Path path = resolveBackgroundPath(safeFilename);
         if (path == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Resource resource = new UrlResource(path.toUri());
-        MediaType mediaType = MediaTypeFactory.getMediaType(resource)
-                .orElse(MediaType.APPLICATION_OCTET_STREAM);
-
-        return ResponseEntity.ok()
-                .contentType(mediaType)
-                .body(resource);
-    }
-
-    @GetMapping("/images/uploads/{filename:.+}")
-    public ResponseEntity<Resource> uploadedImage(@PathVariable String filename) throws MalformedURLException {
-        String safeFilename = Paths.get(filename).getFileName().toString();
-        Path path = Paths.get(STATIC_UPLOAD_DIR, safeFilename);
-        if (!path.toFile().isFile()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -204,16 +194,16 @@ public class DashboardController {
 
     private void addDashboardModelData(Model model, User user) {
         model.addAttribute("user", user);
-        model.addAttribute("themes", List.of("default", "dark"));
-        model.addAttribute("linkStyles", List.of("pill", "box", "underline"));
-        model.addAttribute("textAlignments", List.of("center", "left"));
-        model.addAttribute("buttonColors", List.of("blue", "green", "red", "purple", "orange"));
-        model.addAttribute("fontFamilies", List.of("System", "Georgia", "Courier", "Arial"));
+        model.addAttribute("themes", java.util.Arrays.asList("default", "dark"));
+        model.addAttribute("linkStyles", java.util.Arrays.asList("pill", "box", "underline"));
+        model.addAttribute("textAlignments", java.util.Arrays.asList("center", "left"));
+        model.addAttribute("buttonColors", java.util.Arrays.asList("blue", "green", "red", "purple", "orange"));
+        model.addAttribute("fontFamilies", java.util.Arrays.asList("System", "Georgia", "Courier", "Arial"));
         model.addAttribute("backgrounds", loadBackgrounds());
     }
 
     private String saveUploadFile(MultipartFile file, String filenamePrefix) throws IOException {
-        String uploadDir = STATIC_UPLOAD_DIR + "/";
+        String uploadDir = "src/main/resources/static/images/";
 
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) {

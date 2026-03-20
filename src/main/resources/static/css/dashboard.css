@@ -5,7 +5,8 @@
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     margin: 0;
-    padding: 32px 360px 32px 32px;
+    padding: 96px 32px 32px;
+    padding-right: 360px;
     color: #1f2b4d;
     background: #f7faff;
     max-width: 1200px;
@@ -22,7 +23,13 @@ body {
     border-bottom: 1px solid #e0e0e0;
     background: linear-gradient(90deg, #fafbfc 0%, #f5f7fa 50%, #fafbfc 100%);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    align-self: stretch;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    margin: 0;
+    z-index: 1000;
 }
 
 .nav a {
@@ -80,20 +87,21 @@ body {
     margin-right: 10rem;
 }
 
-.nav-right a {
+.nav-right a,
+.nav-right form button {
     display: inline-flex;
     align-items: center;
     line-height: 1;
 }
 
-.nav-right button {
+.nav-right form {
+    margin: 0;
+    max-width: none;
+    background: transparent;
     border: none;
-    background: none;
-    padding: 0 0 3px 0;
-}
-.nav-right button:hover {
-    color: #3b82f6;
-    cursor: pointer;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 #sign-up-btn {
@@ -105,13 +113,14 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    font-size: 0.92rem;
+    font-family: inherit;
 }
 
 #sign-up-btn:hover {
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     transform: translateY(-1px);
 }
-
 
 h2 {
     margin: 0 0 12px;
@@ -127,7 +136,6 @@ p {
     color: #5f6d8c;
     margin: 0 0 16px;
 }
-
 
 form {
     max-width: 760px;
@@ -492,4 +500,5 @@ form {
     .live-preview {
         display: none;
     }
+
 }
