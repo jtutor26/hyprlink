@@ -42,4 +42,49 @@ public class ProfileController {
         model.addAttribute("user", user);
         return "profile";
     }
+
+    @GetMapping("/profile")
+    public String searchProfile(Principal principal, Model model) {
+        if (principal == null) {
+            return "index";
+        }
+        return processUserInfoByUsername(principal.getName(), principal, model);
+    }
+
+    @GetMapping("/profile/{userName}")
+    public String getProfileByUsername(@PathVariable String userName, Principal principal, Model model) {
+        return processUserInfoByUsername(userName, principal, model);
+    }
+
+    // Helper Methods
+    private String processUserInfoByUsername(String userName, Principal principal, Model model) {
+        User user = profileService.getUserProfileByUsername(userName);
+        return settingMethodAttributes(principal, model, user);
+    }
+
+    private String processUserInfoById(Long id, Principal principal, Model model) {
+        User user = profileService.getUserProfileById(id);
+        return settingMethodAttributes(principal, model, user);
+    }
+
+    private String settingMethodAttributes(Principal principal, Model model, User user) {
+        if (user == null) {
+            return "index";
+        }
+        if (principal == null) {
+            model.addAttribute("signedIn", false);
+            model.addAttribute("principalName", null);
+        } else if (profileService.getUserProfileByUsername(principal.getName()) != null) {
+            model.addAttribute("signedIn", true);
+            model.addAttribute("principalName", principal.getName());
+        }
+        if (principal != null && user.getUsername() != null && user.getUsername().equals(principal.getName())) {
+            model.addAttribute("usersProfile", true);
+        } else {
+            model.addAttribute("usersProfile", false);
+        }
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
 }
