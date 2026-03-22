@@ -28,10 +28,11 @@ public class ProfileController {
             return "redirect:/dashboard";
         }
 
-        return "redirect:/profile/" + user.getId();
+        // Redirect to the explicit ID-based route to avoid ambiguity with username-based route
+        return "redirect:/profile/id/" + user.getId();
     }
 
-    @GetMapping("/profile/{id}")
+    @GetMapping("/profile/id/{id}")
     public String getProfileById(@PathVariable Long id, Model model) {
         User user = profileService.getUserProfileById(id);
 

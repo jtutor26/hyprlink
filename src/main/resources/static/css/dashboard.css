@@ -183,6 +183,12 @@ form {
 
 .design-input { display: block; width: min(100%, 260px); padding: 8px 10px; margin: 6px 0 12px; border: 1px solid #c4dafc; border-radius: 8px; background: #fff; color: #1f2b4d; }
 
+/* Custom color input tweaks */
+#customButtonColor { width: 180px; }
+
+/* Utility class applied when using a custom color */
+.preview-card.button-color-custom .preview-links a { /* default will be overridden via inline style from JS */ }
+
 .file-input { display: block; margin: 8px 0 12px; padding: 8px; border: 1px solid #c4dafc; border-radius: 8px; background: #f3f8ff; color: #1f2b4d; font-size: 0.9rem; cursor: pointer; }
 
 .small-preview-pic { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 2px solid #c4dafc; display: block; margin: 8px 0; }
@@ -261,6 +267,12 @@ form {
 .preview-card.font-family-courier { font-family: "Courier New", monospace; }
 
 .preview-card.font-family-arial { font-family: Arial, sans-serif; }
+
+.preview-card.font-family-helvetica { font-family: Helvetica, Arial, sans-serif; }
+.preview-card.font-family-verdana { font-family: Verdana, Geneva, sans-serif; }
+.preview-card.font-family-times { font-family: "Times New Roman", Times, serif; }
+.preview-card.font-family-trebuchet { font-family: "Trebuchet MS", Helvetica, sans-serif; }
+.preview-card.font-family-palatino { font-family: Palatino, "Palatino Linotype", serif; }
 
 @media (max-width: 1050px) { body { padding: 24px; } .live-preview { display: none; } }
 

@@ -15,6 +15,7 @@
       th:style="${bgUrl != null ? 'background: url(' + bgUrl + ') center/cover no-repeat fixed;' : ''}">
 
 <div class="profile-container"
+     th:attr="data-custom-color=${user.customButtonColor}"
      th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}">
 
     <img class="profile-pic animate-pop-in" th:src="${user.profilePicture}" alt="Profile Picture">
@@ -36,6 +37,58 @@
         </li>
     </ul>
 </div>
+
+<script>
+    // Apply custom button color if user provided one (stored as #rrggbb)
+    (function(){
+        document.addEventListener('DOMContentLoaded', function() {
+            var container = document.querySelector('.profile-container');
+            if (!container) return;
+            var custom = container.getAttribute('data-custom-color');
+            if (!custom) return;
+            // Normalize: ensure leading '#', accept shorthand (not expected from server but handled)
+            function normalizeHex(v) {
+                if (!v) return null;
+                v = v.trim();
+                if (v === '') return null;
+                if (v.charAt(0) !== '#') v = '#' + v;
+                if (/^#[0-9A-Fa-f]{3}$/.test(v)) {
+                    return '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+                }
+                if (/^#[0-9A-Fa-f]{6}$/.test(v)) return v;
+                return null;
+            }
+
+            function contrastColor(hex) {
+                if (!hex) return '#000';
+                var h = hex.replace('#','');
+                var r = parseInt(h.substring(0,2),16)/255;
+                var g = parseInt(h.substring(2,4),16)/255;
+                var b = parseInt(h.substring(4,6),16)/255;
+                var lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                return lum > 0.55 ? '#000000' : '#ffffff';
+            }
+
+            var hex = normalizeHex(custom);
+            if (!hex) return;
+            var textColor = contrastColor(hex);
+            var links = document.querySelectorAll('.link-list .link-button');
+            links.forEach(function(a) {
+                a.style.background = hex;
+                a.style.color = textColor;
+                a.style.borderColor = hex;
+            });
+        });
+    })();
+</script>
+
+<style>
+    .profile-container.font-family-helvetica { font-family: Helvetica, Arial, sans-serif; }
+    .profile-container.font-family-verdana { font-family: Verdana, Geneva, sans-serif; }
+    .profile-container.font-family-times { font-family: "Times New Roman", Times, serif; }
+    .profile-container.font-family-trebuchet { font-family: "Trebuchet MS", Helvetica, sans-serif; }
+    .profile-container.font-family-palatino { font-family: Palatino, "Palatino Linotype", serif; }
+</style>
 
 </body>
 </html>
