@@ -36,7 +36,7 @@ public class ProfileController {
     @GetMapping("/profile") public String searchProfile(Principal principal, Model model) {
         return processUserInfoByUsername(principal.getName(), principal, model);
     }
-    @GetMapping("/profile/username/{userName}")
+    @GetMapping("/profile/{userName}")
     public String getProfileByUsername(@PathVariable String userName, Principal principal, Model model) {
         return processUserInfoByUsername(userName, principal, model);
     }
