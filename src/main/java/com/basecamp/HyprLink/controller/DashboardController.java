@@ -88,8 +88,6 @@ public class DashboardController {
         existingUser.setLinkStyle(updatedData.getLinkStyle());
         existingUser.setTextAlign(updatedData.getTextAlign());
         existingUser.setButtonColor(updatedData.getButtonColor());
-        // Persist custom hex color (if any) - normalize to #rrggbb or null
-        existingUser.setCustomButtonColor(normalizeHex(updatedData.getCustomButtonColor()));
         existingUser.setFontFamily(updatedData.getFontFamily());
 
         // Keep only links that have both a title and a URL
@@ -108,22 +106,6 @@ public class DashboardController {
 
         userRepository.save(existingUser);
         return "redirect:/dashboard?success";
-    }
-
-    // Normalize hex color strings: accepts '#abc', 'abc', '#aabbcc', 'aabbcc' -> returns '#aabbcc' or null if invalid
-    private String normalizeHex(String input) {
-        if (input == null) return null;
-        String v = input.trim();
-        if (v.isEmpty()) return null;
-        if (v.charAt(0) == '#') v = v.substring(1);
-        if (v.length() == 3 && v.matches("[0-9A-Fa-f]{3}")) {
-            // expand
-            return "#" + v.charAt(0) + v.charAt(0) + v.charAt(1) + v.charAt(1) + v.charAt(2) + v.charAt(2);
-        }
-        if (v.length() == 6 && v.matches("[0-9A-Fa-f]{6}")) {
-            return "#" + v;
-        }
-        return null;
     }
 
     @PostMapping("/dashboard/clear-background")
@@ -216,17 +198,7 @@ public class DashboardController {
         model.addAttribute("linkStyles", java.util.Arrays.asList("pill", "box", "underline"));
         model.addAttribute("textAlignments", java.util.Arrays.asList("center", "left"));
         model.addAttribute("buttonColors", java.util.Arrays.asList("blue", "green", "red", "purple", "orange"));
-        model.addAttribute("fontFamilies", java.util.Arrays.asList(
-                "System",
-                "Georgia",
-                "Courier",
-                "Arial",
-                "Helvetica",
-                "Verdana",
-                "Times",
-                "Trebuchet",
-                "Palatino"
-        ));
+        model.addAttribute("fontFamilies", java.util.Arrays.asList("System", "Georgia", "Courier", "Arial"));
         model.addAttribute("backgrounds", loadBackgrounds());
     }
 

@@ -28,8 +28,6 @@ public class User {
     private String linkStyle;
     private String textAlign;
     private String buttonColor;
-    // Optional custom hex color input provided by user (e.g. #ff8800)
-    private String customButtonColor;
     private String fontFamily;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
