@@ -60,12 +60,14 @@ public class DashboardController {
     }
 
 
-    @PostMapping("/dashboard/save")
-    public String saveProfile(@ModelAttribute("user") User updatedData, Principal principal,
-                              @RequestParam(value = "profilePictureFile", required = false) MultipartFile profilePictureFile,
-                              @RequestParam(value = "backgroundFile", required = false) MultipartFile backgroundFile) throws IOException {
+    // 1. Endpoint for General Info & Profile Picture
+    @PostMapping("/dashboard/save/basic")
+    public String saveBasicProfile(@ModelAttribute("user") User updatedData, Principal principal,
+                                   @RequestParam(value = "profilePictureFile", required = false) MultipartFile profilePictureFile) throws IOException {
 
         User existingUser = userRepository.findByUsername(principal.getName()).orElseThrow();
+
+        // Handle Image
         if (profilePictureFile != null && !profilePictureFile.isEmpty()) {
             String filename = saveUploadFile(profilePictureFile, principal.getName() + "_");
             existingUser.setProfilePicture("/images/uploads/" + filename);
@@ -73,25 +75,22 @@ public class DashboardController {
             existingUser.setProfilePicture(updatedData.getProfilePicture());
         }
 
-        if (backgroundFile != null && !backgroundFile.isEmpty()) {
-            String filename = saveUploadFile(backgroundFile, principal.getName() + "_bg_");
-            existingUser.setBackgroundImage("/images/uploads/" + filename);
-        } else if (updatedData.getBackgroundImage() != null && !updatedData.getBackgroundImage().isEmpty()) {
-            existingUser.setBackgroundImage(updatedData.getBackgroundImage());
-        }
-
-        // Update basic fields
+        // Update ONLY basic fields
         existingUser.setName(updatedData.getName());
         existingUser.setAge(updatedData.getAge());
         existingUser.setPronouns(updatedData.getPronouns());
         existingUser.setBio(updatedData.getBio());
-        existingUser.setTheme(updatedData.getTheme());
-        existingUser.setLinkStyle(updatedData.getLinkStyle());
-        existingUser.setTextAlign(updatedData.getTextAlign());
-        existingUser.setButtonColor(updatedData.getButtonColor());
-        existingUser.setFontFamily(updatedData.getFontFamily());
-        System.out.println("Hello World");
-        // Keep only links that have both a title and a URL
+
+        userRepository.save(existingUser);
+        return "redirect:/dashboard?success";
+    }
+
+    // 2. Endpoint for Social Links
+    @PostMapping("/dashboard/save/links")
+    public String saveLinks(@ModelAttribute("user") User updatedData, Principal principal) {
+
+        User existingUser = userRepository.findByUsername(principal.getName()).orElseThrow();
+
         if (updatedData.getSocialLinks() != null) {
             List<SocialLink> validLinks = new ArrayList<>();
             for (SocialLink link : updatedData.getSocialLinks()) {
@@ -100,10 +99,35 @@ public class DashboardController {
                     validLinks.add(link);
                 }
             }
-
             existingUser.getSocialLinks().clear();
             existingUser.getSocialLinks().addAll(validLinks);
         }
+
+        userRepository.save(existingUser);
+        return "redirect:/dashboard?success";
+    }
+
+    // 3. Endpoint for Design & Background
+    @PostMapping("/dashboard/save/design")
+    public String saveDesign(@ModelAttribute("user") User updatedData, Principal principal,
+                             @RequestParam(value = "backgroundFile", required = false) MultipartFile backgroundFile) throws IOException {
+
+        User existingUser = userRepository.findByUsername(principal.getName()).orElseThrow();
+
+        // Handle Background
+        if (backgroundFile != null && !backgroundFile.isEmpty()) {
+            String filename = saveUploadFile(backgroundFile, principal.getName() + "_bg_");
+            existingUser.setBackgroundImage("/images/uploads/" + filename);
+        } else if (updatedData.getBackgroundImage() != null && !updatedData.getBackgroundImage().isEmpty()) {
+            existingUser.setBackgroundImage(updatedData.getBackgroundImage());
+        }
+
+        // Update ONLY design fields
+        existingUser.setTheme(updatedData.getTheme());
+        existingUser.setLinkStyle(updatedData.getLinkStyle());
+        existingUser.setTextAlign(updatedData.getTextAlign());
+        existingUser.setButtonColor(updatedData.getButtonColor());
+        existingUser.setFontFamily(updatedData.getFontFamily());
 
         userRepository.save(existingUser);
         return "redirect:/dashboard?success";

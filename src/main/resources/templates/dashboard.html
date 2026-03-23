@@ -76,14 +76,14 @@
 
 <p>Click "Edit" next to any field to change it.</p>
 
-<form th:action="@{/dashboard/save}" th:object="${user}" method="post" enctype="multipart/form-data">
+<div class="tab-container" style="margin-bottom: 20px;">
+    <button id="general-tab-btn" class="action-btn active" onclick="showTab('general')">General & Links</button>
+    <button id="design-tab-btn" class="action-btn" onclick="showTab('design')">Design</button>
+</div>
 
-    <div class="tab-buttons">
-        <button type="button" id="general-tab-btn" class="tab-btn active" onclick="showTab('general')">General</button>
-        <button type="button" id="design-tab-btn" class="tab-btn" onclick="showTab('design')">Design</button>
-    </div>
+<div id="general-tab" class="tab-content active">
 
-    <div id="general-tab" class="tab-content active">
+    <form th:action="@{/dashboard/save/basic}" th:object="${user}" method="post" enctype="multipart/form-data">
         <div class="edit-row">
             <strong>Profile Picture:</strong><br/>
             <img id="profile-pic-preview" th:src="${user.profilePicture}" alt="Profile Picture" class="small-preview-pic" />
@@ -92,8 +92,8 @@
             <input style="display: none" type="text" th:field="*{profilePicture}" id="profilePicture-input" placeholder="https://example.com/pic.jpg" />
             <button type="button" id="profilePicture-edit-btn" class="action-btn" onclick="toggleEdit('profilePicture')">Edit Image</button>
             <div>
-                <button type="submit" id="profilePicture-save-btn" class="action-btn save-btn">Save</button>
-                <button type="button" id="profilePicture-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('profilePicture')">Cancel</button>
+                <button type="submit" id="profilePicture-save-btn" class="action-btn save-btn" style="display:none;">Save</button>
+                <button type="button" id="profilePicture-cancel-btn" class="action-btn save-btn" style="display:none;" onclick="cancelEdit('profilePicture')">Cancel</button>
             </div>
         </div>
 
@@ -101,12 +101,10 @@
             <strong>Display Name:</strong><br/>
             <span id="name-display" class="display-text" th:text="*{name}">Name</span>
             <input type="text" th:field="*{name}" id="name-input" class="hidden-input" />
-            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-error"></div>
-
             <button type="button" id="name-edit-btn" class="action-btn" onclick="toggleEdit('name')">Edit</button>
             <div>
-                <button type="submit" id="name-save-btn" class="action-btn save-btn">Save</button>
-                <button type="button" id="name-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('name')">Cancel</button>
+                <button type="submit" id="name-save-btn" class="action-btn save-btn" style="display:none;">Save</button>
+                <button type="button" id="name-cancel-btn" class="action-btn save-btn" style="display:none;" onclick="cancelEdit('name')">Cancel</button>
             </div>
         </div>
 
@@ -114,11 +112,10 @@
             <strong>Age:</strong><br/>
             <span id="age-display" class="display-text" th:text="*{age}">Age</span>
             <input type="text" th:field="*{age}" id="age-input" class="hidden-input" />
-
             <button type="button" id="age-edit-btn" class="action-btn" onclick="toggleEdit('age')">Edit</button>
             <div>
-                <button type="submit" id="age-save-btn" class="action-btn save-btn">Save</button>
-                <button type="button" id="age-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('age')">Cancel</button>
+                <button type="submit" id="age-save-btn" class="action-btn save-btn" style="display:none;">Save</button>
+                <button type="button" id="age-cancel-btn" class="action-btn save-btn" style="display:none;" onclick="cancelEdit('age')">Cancel</button>
             </div>
         </div>
 
@@ -126,11 +123,10 @@
             <strong>Pronouns:</strong><br/>
             <span id="pronouns-display" class="display-text" th:text="*{pronouns}">Pronouns</span>
             <input type="text" th:field="*{pronouns}" id="pronouns-input" class="hidden-input" />
-
             <button type="button" id="pronouns-edit-btn" class="action-btn" onclick="toggleEdit('pronouns')">Edit</button>
             <div>
-                <button type="submit" id="pronouns-save-btn" class="action-btn save-btn">Save</button>
-                <button type="button" id="pronouns-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('pronouns')">Cancel</button>
+                <button type="submit" id="pronouns-save-btn" class="action-btn save-btn" style="display:none;">Save</button>
+                <button type="button" id="pronouns-cancel-btn" class="action-btn save-btn" style="display:none;" onclick="cancelEdit('pronouns')">Cancel</button>
             </div>
         </div>
 
@@ -138,42 +134,27 @@
             <strong>Bio:</strong><br/>
             <span id="bio-display" class="display-text" th:text="*{bio}">Bio</span>
             <textarea th:field="*{bio}" id="bio-input" class="hidden-input bio-input" rows="3"></textarea>
-
             <button type="button" id="bio-edit-btn" class="action-btn" onclick="toggleEdit('bio')">Edit</button>
             <div>
-                <button type="submit" id="bio-save-btn" class="action-btn save-btn">Save</button>
-                <button type="button" id="bio-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('bio')">Cancel</button>
+                <button type="submit" id="bio-save-btn" class="action-btn save-btn" style="display:none;">Save</button>
+                <button type="button" id="bio-cancel-btn" class="action-btn save-btn" style="display:none;" onclick="cancelEdit('bio')">Cancel</button>
             </div>
         </div>
+    </form>
 
-        <div class="edit-row">
-            <strong>Theme:</strong><br/>
-            <span id="theme-display" class="display-text" th:text="*{theme}">Theme</span>
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+    <h3>Your Links</h3>
+    <p>Edit existing links, or fill out the new one at the bottom to add more.</p>
 
-            <select th:field="*{theme}" id="theme-input" class="hidden-input">
-                <option th:each="themeOption : ${themes}"
-                        th:value="${themeOption}"
-                        th:text="${themeOption}"></option>
-            </select>
-
-            <button type="button" id="theme-edit-btn" class="action-btn" onclick="toggleEdit('theme')">Edit</button>
-            <div>
-                <button type="submit" id="theme-save-btn" class="action-btn save-btn">Save</button>
-                <button type="button" id="theme-cancel-btn" class="action-btn save-btn" onclick="cancelEdit('theme')">Cancel</button>
-            </div>
-        </div>
-
-        <h3>Your Links</h3>
-        <p>Edit existing links, or fill out the new one at the bottom to add more.</p>
-
+    <form th:action="@{/dashboard/save/links}" th:object="${user}" method="post">
         <div th:each="link, stat : *{socialLinks}" class="edit-row">
             <strong>Link <span th:text="${stat.count}"></span>:</strong><br/>
 
             <input type="hidden" th:field="*{socialLinks[__${stat.index}__].id}" />
 
             <span th:id="'link' + ${stat.index} + '-display'" class="display-text">
-                    <span th:text="${link.title != null and !link.title.isEmpty()} ? ${link.title} : '(New Link)'">Title</span> -
-                    <span th:text="${link.url != null and !link.url.isEmpty()} ? ${link.url} : '(Empty)'">URL</span>
+                        <span th:text="${link.title != null and !link.title.isEmpty()} ? ${link.title} : '(New Link)'">Title</span> -
+                        <span th:text="${link.url != null and !link.url.isEmpty()} ? ${link.url} : '(Empty)'">URL</span>
                 </span>
 
             <div th:id="'link' + ${stat.index} + '-input'" class="hidden-input">
@@ -183,16 +164,28 @@
 
             <button type="button" th:id="'link' + ${stat.index} + '-edit-btn'" class="action-btn" th:onclick="'toggleEdit(\'link' + ${stat.index} + '\')'">Edit</button>
             <div>
-                <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn save-btn">Save</button>
-                <button type="button" th:id="'link' + ${stat.index} + '-cancel-btn'" class="action-btn save-btn" th:onclick="'cancelEdit(\'link' + ${stat.index} + '\')'">Cancel</button>
+                <button type="submit" th:id="'link' + ${stat.index} + '-save-btn'" class="action-btn save-btn" style="display:none;">Save</button>
+                <button type="button" th:id="'link' + ${stat.index} + '-cancel-btn'" class="action-btn save-btn" style="display:none;" th:onclick="'cancelEdit(\'link' + ${stat.index} + '\')'">Cancel</button>
             </div>
         </div>
-    </div>
+    </form>
+</div>
 
-    <div id="design-tab" class="tab-content">
+<div id="design-tab" class="tab-content">
+    <form th:action="@{/dashboard/save/design}" th:object="${user}" method="post" enctype="multipart/form-data">
+
+        <div class="edit-row">
+            <strong>Theme:</strong><br/>
+            <select th:field="*{theme}" id="theme-input" class="design-input">
+                <option th:each="themeOption : ${themes}"
+                        th:value="${themeOption}"
+                        th:text="${themeOption}"></option>
+            </select>
+        </div>
+
         <div class="edit-row">
             <strong>Profile Background:</strong><br/>
-            <input type="file" id="backgroundFile" name="backgroundFile" accept="image/*" class="file-input" />
+            <input type="file" id="backgroundFile" name="backgroundFile" accept="image/*" class="file-input" style="display:block; margin-bottom: 15px;"/>
             <p style="font-size: 0.85rem; color: #5f6d8c;">Or choose from templates:</p>
             <div class="background-grid">
                 <div th:each="bg : ${backgrounds}" class="background-item">
@@ -203,46 +196,37 @@
                     </label>
                 </div>
             </div>
-            <div th:if="${#fields.hasErrors('backgroundImage')}" th:errors="*{backgroundImage}" class="field-error"></div>
         </div>
 
         <div class="edit-row">
             <strong>Link Style:</strong><br/>
             <select th:field="*{linkStyle}" id="linkStyle" class="design-input">
                 <option value="">Choose one</option>
-                <option th:each="linkStyleOption : ${linkStyles}"
-                        th:value="${linkStyleOption}"
-                        th:text="${linkStyleOption}"></option>
+                <option th:each="linkStyleOption : ${linkStyles}" th:value="${linkStyleOption}" th:text="${linkStyleOption}"></option>
             </select>
 
             <strong>Text Alignment:</strong><br/>
             <select th:field="*{textAlign}" id="textAlign" class="design-input">
                 <option value="">Choose one</option>
-                <option th:each="textAlignOption : ${textAlignments}"
-                        th:value="${textAlignOption}"
-                        th:text="${textAlignOption}"></option>
+                <option th:each="textAlignOption : ${textAlignments}" th:value="${textAlignOption}" th:text="${textAlignOption}"></option>
             </select>
 
             <strong>Button Color:</strong><br/>
             <select th:field="*{buttonColor}" id="buttonColor" class="design-input">
                 <option value="">Choose one</option>
-                <option th:each="buttonColorOption : ${buttonColors}"
-                        th:value="${buttonColorOption}"
-                        th:text="${buttonColorOption}"></option>
+                <option th:each="buttonColorOption : ${buttonColors}" th:value="${buttonColorOption}" th:text="${buttonColorOption}"></option>
             </select>
 
             <strong>Font:</strong><br/>
             <select th:field="*{fontFamily}" id="fontFamily" class="design-input">
                 <option value="">Choose one</option>
-                <option th:each="fontOption : ${fontFamilies}"
-                        th:value="${fontOption}"
-                        th:text="${fontOption}"></option>
+                <option th:each="fontOption : ${fontFamilies}" th:value="${fontOption}" th:text="${fontOption}"></option>
             </select>
 
-            <button type="submit" class="action-btn">Save Design</button>
+            <button type="submit" class="action-btn" style="margin-top: 20px;">Save Design</button>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
 <div class="live-preview">
     <div class="live-preview-header">Preview</div>
