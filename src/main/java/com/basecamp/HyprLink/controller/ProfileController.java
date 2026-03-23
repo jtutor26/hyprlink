@@ -28,18 +28,64 @@ public class ProfileController {
             return "redirect:/dashboard";
         }
 
-        return "redirect:/profile/" + user.getId();
+        // Redirect to the explicit ID-based route to avoid ambiguity with username-based route
+        return "redirect:/profile/id/" + user.getId();
     }
 
-    @GetMapping("/profile/{id}")
+    @GetMapping("/profile/id/{id}")
     public String getProfileById(@PathVariable Long id, Model model) {
         User user = profileService.getUserProfileById(id);
 
-        if (user == null) {
-            return "error/404";
+        User user = profileService.getUserProfileByUsername(principal.getName());
+        if (user == null || user.getId() == null) {
+            return "redirect:/dashboard";
         }
 
         model.addAttribute("user", user);
         return "profile";
     }
+
+    @GetMapping("/profile")
+    public String searchProfile(Principal principal, Model model) {
+        if (principal == null) {
+            return "index";
+        }
+        return processUserInfoByUsername(principal.getName(), principal, model);
+    }
+
+    @GetMapping("/profile/{userName}")
+    public String getProfileByUsername(@PathVariable String userName, Principal principal, Model model) {
+        return processUserInfoByUsername(userName, principal, model);
+    }
+
+    // Helper Methods
+    private String processUserInfoByUsername(String userName, Principal principal, Model model) {
+        User user = profileService.getUserProfileByUsername(userName);
+        return settingMethodAttributes(principal, model, user);
+    }
+
+    private String processUserInfoById(Long id, Principal principal, Model model) {
+        User user = profileService.getUserProfileById(id);
+
+    private String settingMethodAttributes(Principal principal, Model model, User user) {
+        if (user == null) {
+            return "index";
+        }
+        if (principal == null) {
+            model.addAttribute("signedIn", false);
+            model.addAttribute("principalName", null);
+        } else if (profileService.getUserProfileByUsername(principal.getName()) != null) {
+            model.addAttribute("signedIn", true);
+            model.addAttribute("principalName", principal.getName());
+        }
+        if (principal != null && user.getUsername() != null && user.getUsername().equals(principal.getName())) {
+            model.addAttribute("usersProfile", true);
+        } else {
+            model.addAttribute("usersProfile", false);
+        }
+
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
 }
