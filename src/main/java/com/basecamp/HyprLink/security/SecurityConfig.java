@@ -20,12 +20,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Public: home, login, register, static assets and the error page
-                        .requestMatchers("/", "/login", "/register", "/register/check", "/css/**", "/images/**", "/error").permitAll()
-                        // Public: profile pages and templates
-                        .requestMatchers("/profile/**", "/templates").permitAll()
-                        // Everything else requires authentication
-                        .anyRequest().authenticated()
+                        .requestMatchers("/register", "/login", "/css/**", "/images/**", "/profile/**", "/").permitAll() // Public pages
+                        .anyRequest().authenticated() // Everything else requires login
                 )
                 .formLogin(form -> form
                         .loginPage("/login") // Custom login page

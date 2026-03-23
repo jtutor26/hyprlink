@@ -173,19 +173,6 @@
                         th:text="${buttonColorOption}"></option>
             </select>
 
-            <!-- Custom Hex Color Input -->
-            <div style="margin-top:6px;">
-                <label for="customButtonColor" style="display:block; font-weight:600; margin-bottom:6px; color:#335084;">Custom Button Color (hex)</label>
-                <div style="display:flex; gap:8px; align-items:center;">
-                    <!-- color picker for convenience; not bound to server, purely client-side -->
-                            <input type="color" id="customButtonColorPicker" th:value="${user.customButtonColor != null ? user.customButtonColor : '#2a7de1'}" class="design-input" style="width:56px; padding:0;" />
-                            <!-- plain text hex input so beginners can type e.g. #ff8800 or ff8800 -->
-                            <input type="text" th:field="*{customButtonColor}" id="customButtonColor" placeholder="#2a7de1" class="design-input" style="width:180px;" />
-                    <button type="button" id="clearCustomColor" class="action-btn" style="background:#e6eefc; color:#2a7de1; padding:6px 10px; font-weight:700;">Clear</button>
-                </div>
-                <div style="font-size:0.85rem; color:#5f6d8c; margin-top:6px;">Tip: you can type a hex value like <code>#2a7de1</code> or pick a color using the picker.</div>
-            </div>
-
             <strong>Font:</strong><br/>
             <select th:field="*{fontFamily}" id="fontFamily" class="design-input">
                 <option value="">Choose one</option>
@@ -369,10 +356,6 @@
         previewCard.classList.add('text-align-' + selectedTextAlign);
         previewCard.classList.add('button-color-' + selectedButtonColor);
         previewCard.classList.add('font-family-' + selectedFontFamily.toLowerCase());
-        // After applying class-based styles, ensure any custom hex color (if present) is applied
-        if (typeof applyCustomButtonColorToPreview === 'function') {
-            applyCustomButtonColorToPreview();
-        }
     }
 
     function bindPreviewEvents() {
@@ -394,106 +377,12 @@
         });
     }
 
-    // --- Custom Button Color Logic ---
-    function normalizeHex(input) {
-        if (!input) return null;
-        let v = input.trim();
-        if (v === '') return null;
-        if (v[0] !== '#') v = '#' + v;
-        // accept 3 or 6 hex digits
-        if (/^#[0-9A-Fa-f]{3}$/.test(v)) {
-            // expand shorthand #abc -> #aabbcc
-            return '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
-        }
-        if (/^#[0-9A-Fa-f]{6}$/.test(v)) return v;
-        return null;
-    }
-
-    function contrastColor(hex) {
-        // compute contrast: return black or white depending on luminance
-        if (!hex) return '#000';
-        // strip #
-        const h = hex.replace('#','');
-        const r = parseInt(h.substring(0,2),16)/255;
-        const g = parseInt(h.substring(2,4),16)/255;
-        const b = parseInt(h.substring(4,6),16)/255;
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return lum > 0.55 ? '#000000' : '#ffffff';
-    }
-
-    function applyCustomButtonColorToPreview() {
-        const previewCard = document.getElementById('preview-card');
-        const buttonColorSelect = document.getElementById('buttonColor');
-        const customInput = document.getElementById('customButtonColor');
-        const customPicker = document.getElementById('customButtonColorPicker');
-
-        // determine source: custom input has priority if valid
-        let customHex = normalizeHex(customInput && customInput.value ? customInput.value : '');
-        if (!customHex && customPicker && customPicker.value) {
-            customHex = normalizeHex(customPicker.value);
-        }
-
-        // if custom hex valid, apply inline styles and add helper class
-        if (customHex) {
-            previewCard.classList.remove('button-color-blue','button-color-green','button-color-red','button-color-purple','button-color-orange');
-            previewCard.classList.add('button-color-custom');
-            const links = previewCard.querySelectorAll('.preview-links a');
-            const textColor = contrastColor(customHex);
-            links.forEach(function(a) {
-                a.style.background = customHex;
-                a.style.color = textColor;
-                a.style.borderColor = customHex;
-            });
-        } else {
-            // remove custom styling, let class-based styles take over
-            previewCard.classList.remove('button-color-custom');
-            const links = previewCard.querySelectorAll('.preview-links a');
-            links.forEach(function(a) {
-                a.style.background = '';
-                a.style.color = '';
-                a.style.borderColor = '';
-            });
-        }
-    }
-
-    function bindCustomColorEvents() {
-        const customInput = document.getElementById('customButtonColor');
-        const customPicker = document.getElementById('customButtonColorPicker');
-        const clearBtn = document.getElementById('clearCustomColor');
-
-        if (customInput) {
-            customInput.addEventListener('input', function() {
-                // mirror picker when possible
-                const normalized = normalizeHex(customInput.value);
-                if (normalized && customPicker) customPicker.value = normalized;
-                applyCustomButtonColorToPreview();
-            });
-        }
-
-        if (customPicker) {
-            customPicker.addEventListener('input', function() {
-                if (customInput) customInput.value = customPicker.value;
-                applyCustomButtonColorToPreview();
-            });
-        }
-
-        if (clearBtn) {
-            clearBtn.addEventListener('click', function() {
-                if (customInput) customInput.value = '';
-                if (customPicker) customPicker.value = '#2a7de1';
-                applyCustomButtonColorToPreview();
-            });
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
         bindPreviewEvents();
-        bindCustomColorEvents();
         updatePreviewText();
         updatePreviewLinks();
         updatePreviewBackground();
         updatePreviewDesignStyles();
-        applyCustomButtonColorToPreview();
     });
 </script>
 </body>
