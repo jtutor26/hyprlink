@@ -639,3 +639,95 @@ form:not(.nav form) {
 .share-input-group button:hover {
     background-color: #0056b3;
 }
+
+
+
+/* MOBILE FRIENDLY STYLING */
+
+@media (max-width: 900px) {
+    .nav {
+        width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        gap: 0.4rem;
+        justify-content: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav a,
+    .nav form,
+    .nav form button {
+        flex: 0 0 auto;
+        padding: 3px 5px;
+        max-width: none;
+        margin-right: 5px;
+        font-size: 0.85rem;
+    }
+
+    #sign-up-btn {
+        max-width: none;
+        max-height: none;
+        padding: 6px 10px;
+    }
+
+    .nav span {
+        display: none;
+    }
+
+    #sign-up-btn span {
+        display: inline-block;
+    }
+
+    .nav svg { width: 0.75rem; }
+    #link-garden svg { width: 0.75rem; }
+
+    .share-box-container {
+        margin-top: 5rem;
+    }
+
+}
+
+@media (max-width: 420px) {
+    .nav {
+        gap: 6px;
+        padding: 4px;
+        border-radius: 1.5rem;
+    }
+
+    .nav span {
+        display: none;
+    }
+
+    #sign-up-btn span {
+        display: inline-block;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 680px) {
+    .nav span { display: inline-block; }
+
+    .nav svg { width: 0.7rem; }
+
+    #link-garden svg { width: 0.7rem; }
+
+    .nav a svg, .nav form svg { width: 0.75rem; }
+
+    .nav { gap: 0.15rem; }
+
+    .nav a, .nav form { padding: 2px 3px; }
+
+    .nav a, .nav form { font-size: 0.82rem; }
+
+    #sign-up-btn { justify-content: center; }
+
+    #sign-up-btn { max-width: 4rem; }
+
+    #sign-up-btn { padding: 4px 5px; }
+
+    #sign-up-btn { width: 100%; }
+
+}

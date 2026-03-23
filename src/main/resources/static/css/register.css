@@ -20,7 +20,6 @@ footer {
     clear: both;
     border-top: 1px solid #ccc;
 }
-
 /* NAVBAR STYLING */
 .nav {
     position: fixed;
@@ -446,10 +445,7 @@ footer {
             padding: 1rem;
         }
 
-        footer {
-            font-size: 0.95rem;
-            padding: 1rem;
-        }
+
     }
 
     .template-options {
@@ -503,3 +499,96 @@ footer {
 }
 .svg-cross { stroke-dasharray: 90; stroke-dashoffset: 90; }
 @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+
+
+
+/* MOBILE FRIENDLY STYLING */
+
+@media (max-width: 900px) {
+    .nav {
+        width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        gap: 0.4rem;
+        justify-content: center;
+        overflow-x: auto;
+    }
+
+    .nav a,
+    .nav form,
+    .nav form button {
+        flex: 0 0 auto;
+        padding: 4px 6px;
+        max-width: none;
+        margin-right: 6px;
+        font-size: 0.92rem;
+    }
+
+    #sign-up-btn {
+        max-width: none;
+        max-height: none;
+        padding: 6px 10px;
+    }
+
+    .nav span {
+        display: none;
+    }
+
+    #sign-up-btn span {
+        display: inline-block;
+    }
+
+    .nav svg {
+        width: 0.85rem;
+    }
+
+    #link-garden svg {
+        width: 0.85rem;
+    }
+
+    /* tightening spacing for nav items handled by .nav and .nav a rules */
+}
+
+@media (max-width: 420px) {
+    .nav {
+        gap: 6px;
+        padding: 4px;
+        border-radius: 1.5rem;
+    }
+
+    .nav span {
+        display: none;
+    }
+
+    #sign-up-btn span {
+        display: inline-block;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 680px) {
+    .nav span { display: inline-block; }
+
+    .nav svg { width: 0.8rem; }
+
+    #link-garden svg { width: 0.8rem; }
+
+    .nav a svg, .nav form svg { width: 0.85rem; }
+
+    .nav { gap: 0.2rem; }
+
+    .nav a, .nav form { padding: 3px 4px; }
+
+    .nav a, .nav form { font-size: 0.9rem; }
+
+    #sign-up-btn { justify-content: center; }
+
+    #sign-up-btn { max-width: 4.5rem; }
+
+    #sign-up-btn { padding: 5px 6px; }
+
+    #sign-up-btn { width: 100%; }
+
+}
