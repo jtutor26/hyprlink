@@ -15,7 +15,6 @@
       th:style="${bgUrl != null ? 'background: url(' + bgUrl + ') center/cover no-repeat fixed;' : ''}">
 
 <div class="profile-container"
-     th:attr="data-custom-color=${user.customButtonColor}"
      th:classappend="${' link-style-' + (user.linkStyle != null ? user.linkStyle : 'pill') + ' text-align-' + (user.textAlign != null ? user.textAlign : 'center') + ' button-color-' + (user.buttonColor != null ? user.buttonColor : 'blue') + ' font-family-' + (user.fontFamily != null ? user.fontFamily.toLowerCase() : 'system')}">
 
     <img class="profile-pic animate-pop-in" th:src="${user.profilePicture}" alt="Profile Picture">

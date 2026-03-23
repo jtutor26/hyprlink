@@ -36,8 +36,9 @@ public class ProfileController {
     public String getProfileById(@PathVariable Long id, Model model) {
         User user = profileService.getUserProfileById(id);
 
-        if (user == null) {
-            return "error/404";
+        User user = profileService.getUserProfileByUsername(principal.getName());
+        if (user == null || user.getId() == null) {
+            return "redirect:/dashboard";
         }
 
         model.addAttribute("user", user);
@@ -65,8 +66,6 @@ public class ProfileController {
 
     private String processUserInfoById(Long id, Principal principal, Model model) {
         User user = profileService.getUserProfileById(id);
-        return settingMethodAttributes(principal, model, user);
-    }
 
     private String settingMethodAttributes(Principal principal, Model model, User user) {
         if (user == null) {
@@ -84,6 +83,7 @@ public class ProfileController {
         } else {
             model.addAttribute("usersProfile", false);
         }
+
         model.addAttribute("user", user);
         return "profile";
     }
